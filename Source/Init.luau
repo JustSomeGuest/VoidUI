@@ -525,29 +525,6 @@ PagesPadding.PaddingRight = UDim.new(0, 4)
 PagesPadding.PaddingTop = UDim.new(0, 4)
 PagesPadding.Parent = Pages
 
-local function ResetTheme()
-    for k, v in pairs(DevTheme) do
-        ThemeSettings[k] = v
-    end
-    IsDevTheme = true
-    
-    local bgColor = ParseColor(DevTheme.BackgroundColor) or Color3.fromRGB(14, 14, 14)
-    local accentColor = ParseColor(DevTheme.Accent) or Color3.fromRGB(110, 94, 253)
-    local secondaryColor = ParseColor(DevTheme.Secondary) or Color3.fromRGB(29, 29, 29)
-    local textColor = ParseColor(DevTheme.TextColor) or Color3.fromRGB(255, 255, 255)
-    local nonSelectedTextColor = ParseColor(DevTheme.NonSelectedTextColor) or Color3.fromRGB(141, 141, 141)
-    
-    ApplyAccentColor(accentColor)
-    ApplySecondaryColor(secondaryColor)
-    ApplyTextColor(textColor)
-    ApplyBackgroundColor(bgColor)
-    ApplyNonSelectedTextColor(nonSelectedTextColor)
-    
-    pcall(function()
-        DelFile(SettingsData)
-    end)
-end
-
 local function ApplyAccentColor(color)
     Defaults.Accent = color
     ThemeSettings.Accent = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
@@ -656,6 +633,40 @@ local function SwitchTab(tabData)
     TweenService:Create(tabData.Label, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         TextColor3 = Defaults.Accent
     }):Play()
+end
+
+local function ResetTheme()
+    for k, v in pairs(DevTheme) do
+        ThemeSettings[k] = v
+    end
+    IsDevTheme = true
+    
+    local bgColor = ParseColor(DevTheme.BackgroundColor) or Color3.fromRGB(14, 14, 14)
+    local accentColor = ParseColor(DevTheme.Accent) or Color3.fromRGB(110, 94, 253)
+    local secondaryColor = ParseColor(DevTheme.Secondary) or Color3.fromRGB(29, 29, 29)
+    local textColor = ParseColor(DevTheme.TextColor) or Color3.fromRGB(255, 255, 255)
+    local nonSelectedTextColor = ParseColor(DevTheme.NonSelectedTextColor) or Color3.fromRGB(141, 141, 141)
+    
+    ApplyAccentColor(accentColor)
+    ApplySecondaryColor(secondaryColor)
+    ApplyTextColor(textColor)
+    ApplyBackgroundColor(bgColor)
+    ApplyNonSelectedTextColor(nonSelectedTextColor)
+
+    if SettingsTab and SettingsTab.Content then
+        for _, child in ipairs(SettingsTab.Content:GetChildren()) do
+            if child:IsA("Frame") and child.Name:find("Color") then
+                local textBox = child:FindFirstChildOfClass("TextBox")
+                if textBox then
+                    textBox.Text = ""
+                end
+            end
+        end
+    end
+    
+    pcall(function()
+        DelFile(SettingsData)
+    end)
 end
 
 local function CreateSettingsTab()
@@ -1681,6 +1692,14 @@ Hide.MouseButton1Click:Connect(HideMain)
 Show.MouseButton1Click:Connect(ShowMain)
 
 Close.MouseButton1Click:Connect(function()
+    if ThemeSettings.Animations then
+        local slideOut = TweenService:Create(Main, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+            GroupTransparency = 1,
+            Position = UDim2.new(0, Main.Position.X.Offset + 100, 0, Main.Position.Y.Offset)
+        })
+        slideOut:Play()
+        slideOut.Completed:Wait()
+    end
     ScreenGui:Destroy()
 end)
 
