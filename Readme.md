@@ -2,9 +2,24 @@
   <img src="Assets/VoidUI.png" alt="VoidUI" width="300" height="300">
 </p>
 
+<h1 align="center">VoidUI</h1>
+
 <p align="center">
 A lightweight, modern Roblox UI library with a clean API, built-in theme customization, and automatic settings saving.
 </p>
+
+---
+
+# Why Choose VoidUI?
+
+- Lightweight and optimized
+- Clean and intuitive API
+- Built-in theme customization
+- Automatic settings saving
+- Built-in Settings tab
+- Smooth animations
+- Designed for both PC and mobile
+- Easy to integrate into existing projects
 
 ---
 
@@ -16,13 +31,14 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 ---
 
-# API Docs
+# API Documentation
 
 ## Window (Optional)
 
 ```luau
 VoidUI:SetTitle("Title")
 VoidUI:SetLogo("https://example.com/logo.png") -- Also supports rbxassetid://1234
+
 VoidUI:SetTheme({
     Accent = "255, 0, 0",
     Secondary = "30, 30, 30",
@@ -122,7 +138,7 @@ VoidUI:New("Inputbox", {
 
 # Built-in Settings
 
-Every window automatically includes a **Settings** tab containing:
+Every window automatically includes a **Settings** tab with the following options:
 
 - Reset Theme
 - Enable/Disable Animations
@@ -131,15 +147,3 @@ Every window automatically includes a **Settings** tab containing:
 - Secondary Color (RGB)
 - Text Color (RGB)
 - Unselected Text Color (RGB)
-
----
-
-# Features
-
-- Lightweight
-- Modern design
-- Clean and simple API
-- Built-in theme editor
-- Automatic settings saving
-- Fully customizable colors
-- Built-in Settings tab
