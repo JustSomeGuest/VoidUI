@@ -2,8 +2,6 @@
   <img src="Assets/VoidUI.png" alt="VoidUI" width="300" height="300">
 </p>
 
-<h1 align="center">VoidUI</h1>
-
 <p align="center">
 A lightweight, modern Roblox UI library with a clean API, built-in theme customization, and automatic settings saving.
 </p>
