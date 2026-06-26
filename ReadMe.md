@@ -22,7 +22,7 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 ```luau
 VoidUI:SetTitle("Title")
-VoidUI:SetLogo("https://example.com/logo.png") --Also supports rbxassetid://1234
+VoidUI:SetLogo("https://example.com/logo.png") -- Also supports rbxassetid://1234
 VoidUI:SetTheme({
     Accent = "255, 0, 0",
     Secondary = "30, 30, 30",
