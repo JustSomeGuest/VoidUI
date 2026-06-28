@@ -48,6 +48,19 @@ local Services = setmetatable({}, {
 
 local StarterGui = Services.StarterGui
 
+Shared.VoidUI = Shared.VoidUI or {}
+
+if Shared.VoidUI.IsLoaded then
+    StarterGui:SetCore("SendNotification", {
+        Title = "VoidUI",
+        Text = "VoidUI is already running!",
+        Duration = 4
+    })
+    return
+end
+
+Shared.VoidUI.IsLoaded = true
+
 local function Warn(reason)
     local msg = tostring(reason)
     pcall(function()
@@ -74,17 +87,6 @@ local Player = Players.LocalPlayer
 if not IsFolder("VoidUI") then
     MakeFolder("VoidUI")
 end
-
-if IsFile("VoidUI/IsLoaded") and ReadFile("VoidUI/IsLoaded") == "true" then
-    StarterGui:SetCore("SendNotification", {
-        Title = "VoidUI",
-        Text = "[VoidUI]: VoidUI is already running!",
-        Duration = 4
-    })
-    return
-end
-
-WriteFile("VoidUI/IsLoaded", "true")
 
 local function HttpGet(url)
     local RequestFunc = expect("function", syn and syn.request, 
@@ -293,9 +295,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.Parent = CoreGui
 
 ScreenGui.Destroying:Connect(function()
-    pcall(function()
-        WriteFile("VoidUI/IsLoaded", "false")
-    end)
+    Shared.VoidUI.IsLoaded = false
 end)
 
 local Show = Instance.new("TextButton")
@@ -1705,6 +1705,7 @@ Close.MouseButton1Click:Connect(function()
         slideOut:Play()
         slideOut.Completed:Wait()
     end
+    Shared.VoidUI.IsLoaded = false
     ScreenGui:Destroy()
 end)
 
@@ -1712,7 +1713,7 @@ Players.PlayerRemoving:Connect(function(leavingPlayer)
     if leavingPlayer ~= Player then
         return
     end
-
+    Shared.VoidUI.IsLoaded = false
     if IsFolder("VoidUI") then
         pcall(function()
             DelFolder("VoidUI")
