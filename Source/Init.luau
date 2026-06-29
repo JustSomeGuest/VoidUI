@@ -540,16 +540,25 @@ local function ApplyAccentColor(color)
     Hide.TextColor3 = color
     Close.TextColor3 = color
     MainStroke.Color = color
+    
+    UpdateSettingsTabColors()
+    UpdateUserTabsColors()
 end
 
 local function ApplySecondaryColor(color)
     Defaults.Secondary = color
     ThemeSettings.Secondary = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
+    
+    UpdateSettingsTabColors()
+    UpdateUserTabsColors()
 end
 
 local function ApplyTextColor(color)
     Defaults.TextColor = color
     ThemeSettings.TextColor = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
+    
+    UpdateSettingsTabColors()
+    UpdateUserTabsColors()
 end
 
 local function ApplyBackgroundColor(color)
@@ -563,6 +572,16 @@ end
 local function ApplyNonSelectedTextColor(color)
     Defaults.NonSelectedTextColor = color
     ThemeSettings.NonSelectedTextColor = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
+    
+    for _, tabData in pairs(UserTabs) do
+        if tabData.Content and not tabData.Content.Visible then
+            tabData.Label.TextColor3 = color
+        end
+    end
+    
+    if SettingsTab and SettingsTab.Content and not SettingsTab.Content.Visible then
+        SettingsTab.Label.TextColor3 = color
+    end
 end
 
 local UserTabs = {}
@@ -574,6 +593,131 @@ local function UpdateColorPlaceholders()
     for key, textBox in pairs(ColorBoxes) do
         if textBox and DevTheme[key] then
             textBox.PlaceholderText = DevTheme[key]
+        end
+    end
+end
+
+local function UpdateSettingsTabColors()
+    if not SettingsTab or not SettingsTab.Content then return end
+    
+    for _, child in ipairs(SettingsTab.Content:GetChildren()) do
+        if child:IsA("TextLabel") then
+            if child.Name == "CustomizationLabel" then
+                child.BackgroundColor3 = Defaults.Secondary
+                child.TextColor3 = Defaults.TextColor
+            elseif child.Name == "Section" then
+                child.TextColor3 = Defaults.Accent
+            end
+        elseif child:IsA("Frame") then
+            if child.Name:find("Color") then
+                child.BackgroundColor3 = Defaults.Secondary
+                for _, innerChild in ipairs(child:GetChildren()) do
+                    if innerChild:IsA("TextLabel") and innerChild.Name == "InputboxLabel" then
+                        innerChild.TextColor3 = Defaults.TextColor
+                    elseif innerChild:IsA("TextBox") then
+                        innerChild.TextColor3 = Defaults.Accent
+                        innerChild.PlaceholderColor3 = Defaults.NonSelectedTextColor
+                        local stroke = innerChild:FindFirstChildOfClass("UIStroke")
+                        if stroke then
+                            stroke.Color = Defaults.Accent
+                        end
+                    end
+                end
+            elseif child.Name == "AnimsToggle" then
+                child.BackgroundColor3 = Defaults.Secondary
+                for _, innerChild in ipairs(child:GetChildren()) do
+                    if innerChild:IsA("TextLabel") and innerChild.Name == "ToggleLabel" then
+                        innerChild.TextColor3 = Defaults.TextColor
+                    elseif innerChild:IsA("Frame") and innerChild.Name == "ToggleSwitch" then
+                        local knob = innerChild:FindFirstChild("Knob")
+                        local stroke = innerChild:FindFirstChildOfClass("UIStroke")
+                        if knob and stroke then
+                            if not ThemeSettings.Animations then
+                                local isOn = knob.Position.X.Scale > 0.5
+                                if isOn then
+                                    knob.BackgroundColor3 = Defaults.Accent
+                                    stroke.Color = Defaults.Accent
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        elseif child:IsA("TextButton") and child.Name == "ResetThemeButton" then
+            child.BackgroundColor3 = Defaults.Secondary
+            child.TextColor3 = Defaults.TextColor
+        end
+    end
+end
+
+local function UpdateUserTabsColors()
+    for _, tabData in pairs(UserTabs) do
+        if tabData.Content then
+            for _, child in ipairs(tabData.Content:GetChildren()) do
+                if child:IsA("TextLabel") then
+                    if child.Name == "Label" then
+                        child.BackgroundColor3 = Defaults.Secondary
+                        child.TextColor3 = Defaults.TextColor
+                    elseif child.Name == "Section" then
+                        child.TextColor3 = Defaults.Accent
+                    end
+                elseif child:IsA("TextButton") and child.Name == "Button" then
+                    child.BackgroundColor3 = Defaults.Secondary
+                    child.TextColor3 = Defaults.TextColor
+                elseif child:IsA("Frame") then
+                    if child.Name == "Toggle" then
+                        child.BackgroundColor3 = Defaults.Secondary
+                        for _, innerChild in ipairs(child:GetChildren()) do
+                            if innerChild:IsA("TextLabel") and innerChild.Name == "ToggleLabel" then
+                                innerChild.TextColor3 = Defaults.TextColor
+                            elseif innerChild:IsA("Frame") and innerChild.Name == "ToggleSwitch" then
+                                local knob = innerChild:FindFirstChild("Knob")
+                                local stroke = innerChild:FindFirstChildOfClass("UIStroke")
+                                if knob and stroke then
+                                    if not ThemeSettings.Animations then
+                                        local isOn = knob.Position.X.Scale > 0.5
+                                        if isOn then
+                                            knob.BackgroundColor3 = Defaults.Accent
+                                            stroke.Color = Defaults.Accent
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    elseif child.Name == "Slider" then
+                        child.BackgroundColor3 = Defaults.Secondary
+                        for _, innerChild in ipairs(child:GetChildren()) do
+                            if innerChild:IsA("TextLabel") and innerChild.Name == "SliderLabel" then
+                                innerChild.TextColor3 = Defaults.TextColor
+                            elseif innerChild:IsA("CanvasGroup") and innerChild.Name == "Thumb" then
+                                local stroke = innerChild:FindFirstChildOfClass("UIStroke")
+                                if stroke then
+                                    stroke.Color = Defaults.Accent
+                                end
+                                local knob = innerChild:FindFirstChild("Knob")
+                                if knob then
+                                    knob.BackgroundColor3 = Defaults.Accent
+                                end
+                            end
+                        end
+                    elseif child.Name == "Inputbox" then
+                        child.BackgroundColor3 = Defaults.Secondary
+                        for _, innerChild in ipairs(child:GetChildren()) do
+                            if innerChild:IsA("TextLabel") and innerChild.Name == "InputboxLabel" then
+                                innerChild.TextColor3 = Defaults.TextColor
+                            elseif innerChild:IsA("TextBox") then
+                                innerChild.TextColor3 = Defaults.Accent
+                                local stroke = innerChild:FindFirstChildOfClass("UIStroke")
+                                if stroke then
+                                    stroke.Color = Defaults.Accent
+                                end
+                            end
+                        end
+                    end
+                elseif child:IsA("Frame") and child.Name == "Divider" then
+                    child.BackgroundColor3 = Defaults.Accent
+                end
+            end
         end
     end
 end
@@ -947,7 +1091,7 @@ local function CreateSettingsTab()
         textBox.BorderSizePixel = 0
         textBox.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
         textBox.LayoutOrder = 2
-        textBox.PlaceholderColor3 = Color3.fromRGB(141, 141, 141)
+        textBox.PlaceholderColor3 = Defaults.NonSelectedTextColor
         textBox.PlaceholderText = DevTheme[key]
         textBox.Size = UDim2.new(0.2, 0, 0.3, 0)
         textBox.Text = ""
@@ -1733,8 +1877,8 @@ Players.PlayerRemoving:Connect(function(leavingPlayer)
     if IsFolder("VoidUI") then
         pcall(function()
             DelFolder("VoidUI")
-        end)
-    end
+        end
+    end)
 end)
 
 if FirstTab then
