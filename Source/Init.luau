@@ -1877,8 +1877,8 @@ Players.PlayerRemoving:Connect(function(leavingPlayer)
     if IsFolder("VoidUI") then
         pcall(function()
             DelFolder("VoidUI")
-        end
-    end)
+        end)
+    end
 end)
 
 if FirstTab then
