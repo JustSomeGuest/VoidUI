@@ -530,6 +530,14 @@ PagesPadding.PaddingRight = UDim.new(0, 4)
 PagesPadding.PaddingTop = UDim.new(0, 4)
 PagesPadding.Parent = Pages
 
+local UserTabs = {}
+local SettingsTab = nil
+local FirstTab = nil
+local ColorBoxes = {}
+
+local UpdateSettingsTabColors
+local UpdateUserTabsColors
+
 local function ApplyAccentColor(color)
     Defaults.Accent = color
     ThemeSettings.Accent = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
@@ -584,11 +592,6 @@ local function ApplyNonSelectedTextColor(color)
     end
 end
 
-local UserTabs = {}
-local SettingsTab = nil
-local FirstTab = nil
-local ColorBoxes = {}
-
 local function UpdateColorPlaceholders()
     for key, textBox in pairs(ColorBoxes) do
         if textBox and DevTheme[key] then
@@ -597,7 +600,7 @@ local function UpdateColorPlaceholders()
     end
 end
 
-local function UpdateSettingsTabColors()
+function UpdateSettingsTabColors()
     if not SettingsTab or not SettingsTab.Content then return end
     
     for _, child in ipairs(SettingsTab.Content:GetChildren()) do
@@ -650,7 +653,7 @@ local function UpdateSettingsTabColors()
     end
 end
 
-local function UpdateUserTabsColors()
+function UpdateUserTabsColors()
     for _, tabData in pairs(UserTabs) do
         if tabData.Content then
             for _, child in ipairs(tabData.Content:GetChildren()) do
