@@ -568,6 +568,15 @@ end
 local UserTabs = {}
 local SettingsTab = nil
 local FirstTab = nil
+local ColorBoxes = {}
+
+local function UpdateColorPlaceholders()
+    for key, textBox in pairs(ColorBoxes) do
+        if textBox and DevTheme[key] then
+            textBox.PlaceholderText = DevTheme[key]
+        end
+    end
+end
 
 local function CreateContent()
     local sf = Instance.new("ScrollingFrame")
@@ -890,7 +899,7 @@ local function CreateSettingsTab()
         end
     end)
 
-    local function CreateColorSetting(name, layoutOrder, defaultPlaceholder, applyFunc)
+    local function CreateColorSetting(name, layoutOrder, key, applyFunc)
         local frame = Instance.new("Frame")
         frame.BackgroundColor3 = Defaults.Secondary
         frame.BorderSizePixel = 0
@@ -939,7 +948,7 @@ local function CreateSettingsTab()
         textBox.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
         textBox.LayoutOrder = 2
         textBox.PlaceholderColor3 = Color3.fromRGB(141, 141, 141)
-        textBox.PlaceholderText = defaultPlaceholder
+        textBox.PlaceholderText = DevTheme[key]
         textBox.Size = UDim2.new(0.2, 0, 0.3, 0)
         textBox.Text = ""
         textBox.TextColor3 = Defaults.Accent
@@ -967,7 +976,7 @@ local function CreateSettingsTab()
             if enterPressed then
                 local color
                 if textBox.Text == "" then
-                    color = ParseColor(defaultPlaceholder)
+                    color = ParseColor(DevTheme[key])
                 else
                     color = ParseColor(textBox.Text)
                 end
@@ -979,14 +988,16 @@ local function CreateSettingsTab()
             end
         end)
 
+        ColorBoxes[key] = textBox
+
         return frame
     end
 
-    CreateColorSetting("Background", 4, ThemeSettings.BackgroundColor, ApplyBackgroundColor)
-    CreateColorSetting("Accent", 5, ThemeSettings.Accent, ApplyAccentColor)
-    CreateColorSetting("Secondary", 6, ThemeSettings.Secondary, ApplySecondaryColor)
-    CreateColorSetting("Text", 7, ThemeSettings.TextColor, ApplyTextColor)
-    CreateColorSetting("Unselected Text", 8, ThemeSettings.NonSelectedTextColor, ApplyNonSelectedTextColor)
+    CreateColorSetting("Background", 4, "BackgroundColor", ApplyBackgroundColor)
+    CreateColorSetting("Accent", 5, "Accent", ApplyAccentColor)
+    CreateColorSetting("Secondary", 6, "Secondary", ApplySecondaryColor)
+    CreateColorSetting("Text", 7, "TextColor", ApplyTextColor)
+    CreateColorSetting("Unselected Text", 8, "NonSelectedTextColor", ApplyNonSelectedTextColor)
 
     local resetThemeButton = Instance.new("TextButton")
     resetThemeButton.BackgroundColor3 = Defaults.Secondary
@@ -1610,11 +1621,14 @@ function VoidUI:SetTheme(theme)
         Warn("[VoidUI]: No theme table provided for SetTheme")
         return
     end
-    
+
     for k, v in pairs(theme) do
-        DevTheme[k] = v
+        local parsed = ParseColor(v)
+        if parsed then
+            DevTheme[k] = string.format("%d, %d, %d", parsed.R * 255, parsed.G * 255, parsed.B * 255)
+        end
     end
-    
+
     if theme.Accent then
         local color = ParseColor(theme.Accent)
         if color then
@@ -1645,7 +1659,9 @@ function VoidUI:SetTheme(theme)
             ApplyNonSelectedTextColor(color)
         end
     end
-    
+
+    UpdateColorPlaceholders()
+
     if not IsDevTheme then
         SaveSettings()
     end
