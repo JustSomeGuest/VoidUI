@@ -21,7 +21,7 @@ local function expect(expected, value, fallback)
     return fallback
 end
 
-local cloneref = expect("function", cloneref, function(...) return ... end)
+local CloneRef = expect("function", cloneref, function(...) return ... end)
 local WriteFile = expect("function", writefile, function() return end)
 local ReadFile = expect("function", readfile, function() return "" end)
 local IsFile = expect("function", isfile, function() return false end)
@@ -35,7 +35,7 @@ local LoadFile = expect("function", getcustomasset, expect("function", getsynass
 local Services = setmetatable({}, {
     __index = function(self, name)
         local success, cache = pcall(function()
-            return cloneref(game:GetService(name))
+            return CloneRef(game:GetService(name))
         end)
         if success then
             rawset(self, name, cache)
