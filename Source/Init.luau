@@ -290,6 +290,7 @@ end
 local VoidUI = {}
 
 local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.DisplayOrder = 2147483646
 ScreenGui.Name = "VoidUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
