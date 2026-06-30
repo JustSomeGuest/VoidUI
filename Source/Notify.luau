@@ -142,7 +142,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local TopbarSizeCons = Instance.new("UISizeConstraint")
     TopbarSizeCons.MaxSize = Vector2.new(math.huge, 36)
-    TopbarSizeCons.MinSize = Vector2.new(0, 34)
+    TopbarSizeCons.MinSize = Vector2.new(10, 34)
     TopbarSizeCons.Name = "TopbarSizeCons"
     TopbarSizeCons.Parent = Topbar
 
