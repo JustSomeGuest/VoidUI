@@ -46,11 +46,8 @@ local Services = setmetatable({}, {
     end
 })
 
-local Success, Hui = pcall(function()
-    return gethui and gethui()
-end)
-
-local CoreGui = Success and typeof(Hui) == "Instance" and Hui or Services.CoreGui 
+local Success, Hui = pcall(function() return gethui and gethui() end)
+local CoreGui = (Success and typeof(Hui) == "Instance" and Hui) or Services.CoreGui
 local Players = Services.Players
 local TweenService = Services.TweenService
 local UserInputService = Services.UserInputService
