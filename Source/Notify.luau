@@ -78,18 +78,16 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     NotifyHolder.BackgroundTransparency = 1
     NotifyHolder.BorderSizePixel = 0
-    NotifyHolder.ClipsDescendants = true
     NotifyHolder.Name = "NotifyHolder"
     NotifyHolder.Size = UDim2.new(1, 0, 0, 0)
     NotifyHolder.Parent = Notifs
 
-    local Notify = Instance.new("Frame")
+    local Notify = Instance.new("CanvasGroup")
     Notify.AutomaticSize = Enum.AutomaticSize.Y
     Notify.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
-    Notify.BackgroundTransparency = 1
     Notify.BorderSizePixel = 0
+    Notify.GroupTransparency = 1
     Notify.Name = "Notify"
-    Notify.Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
     Notify.Size = UDim2.new(1, 0, 0, 0)
     Notify.Parent = NotifyHolder
 
@@ -141,8 +139,8 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TopbarPadding.Parent = Topbar
 
     local TopbarSizeCons = Instance.new("UISizeConstraint")
-    TopbarSizeCons.MaxSize = Vector2.new(9999, 36)
-    TopbarSizeCons.MinSize = Vector2.new(50, 36)
+    TopbarSizeCons.MaxSize = Vector2.new(8000, 36)
+    TopbarSizeCons.MinSize = Vector2.new(100, 34)
     TopbarSizeCons.Name = "TopbarSizeCons"
     TopbarSizeCons.Parent = Topbar
 
@@ -158,7 +156,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Logo.BackgroundTransparency = 1
     Logo.BorderSizePixel = 0
-    Logo.Image = ""
+    Logo.Image = SharedLogo or ""
     Logo.ImageTransparency = 1
     Logo.LayoutOrder = 1
     Logo.Name = "Logo"
@@ -170,10 +168,6 @@ function VoidNotifs:Notify(Title, Text, Duration)
     LogoRatio.Name = "LogoRatio"
     LogoRatio.Parent = Logo
 
-    if SharedLogo then
-        Logo.Image = SharedLogo
-    end
-
     local TitleLabel = Instance.new("TextLabel")
     TitleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     TitleLabel.BackgroundTransparency = 1
@@ -182,7 +176,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.LayoutOrder = 2
     TitleLabel.Name = "Title"
     TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
-    TitleLabel.Text = Title or "VoidNotifs"
+    TitleLabel.Text = Title or "VoidUI"
     TitleLabel.TextColor3 = Color3.fromRGB(111, 95, 254)
     TitleLabel.TextScaled = true
     TitleLabel.TextTransparency = 1
@@ -198,7 +192,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
     Description.LayoutOrder = 2
     Description.Name = "Description"
-    Description.Size = UDim2.new(0, 38, 0, 0)
+    Description.Size = UDim2.new(1, 0, 0, 0)
     Description.Text = Text or "Description..."
     Description.TextColor3 = Color3.fromRGB(255, 255, 255)
     Description.TextSize = 16
@@ -216,16 +210,8 @@ function VoidNotifs:Notify(Title, Text, Duration)
     DescriptionPadding.PaddingTop = UDim.new(0, 3)
     DescriptionPadding.Parent = Description
 
-    NotifyHolder.Size = UDim2.new(1, 0, 0, 0)
-    Notify.Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
-
-    local slideInTween = TweenService:Create(Notify, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(0, 0, 0, 0)
-    })
-    slideInTween:Play()
-
     local fadeInInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    TweenService:Create(Notify, fadeInInfo, { BackgroundTransparency = 0 }):Play()
+    TweenService:Create(Notify, fadeInInfo, { GroupTransparency = 0 }):Play()
     TweenService:Create(NotifyStroke, fadeInInfo, { Transparency = 0 }):Play()
     TweenService:Create(Topbar, fadeInInfo, { BackgroundTransparency = 0 }):Play()
     TweenService:Create(TopbarStroke, fadeInInfo, { Transparency = 0 }):Play()
@@ -241,13 +227,8 @@ function VoidNotifs:Notify(Title, Text, Duration)
             return
         end
 
-        local slideOutTween = TweenService:Create(Notify, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-            Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
-        })
-        slideOutTween:Play()
-
         local fadeOutInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
-        TweenService:Create(Notify, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
+        TweenService:Create(Notify, fadeOutInfo, { GroupTransparency = 1 }):Play()
         TweenService:Create(NotifyStroke, fadeOutInfo, { Transparency = 1 }):Play()
         TweenService:Create(Topbar, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
         TweenService:Create(TopbarStroke, fadeOutInfo, { Transparency = 1 }):Play()
@@ -257,7 +238,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
             TweenService:Create(Logo, fadeOutInfo, { ImageTransparency = 1 }):Play()
         end
 
-        slideOutTween.Completed:Connect(function()
+        task.delay(0.4, function()
             if NotifyHolder and NotifyHolder.Parent then
                 NotifyHolder:Destroy()
             end
