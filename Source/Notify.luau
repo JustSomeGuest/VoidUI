@@ -86,7 +86,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyHolder.Size = UDim2.new(1, 0, 0, 0)
     NotifyHolder.Parent = Notifs
 
-    local Notify = Instance.new("CanvasGroup")
+    local Notify = Instance.new("Frame")
     Notify.AutomaticSize = Enum.AutomaticSize.Y
     Notify.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
     Notify.BorderSizePixel = 0
