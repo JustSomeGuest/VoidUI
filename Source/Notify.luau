@@ -40,6 +40,7 @@ local VoidNotifs = {}
 local SharedLogo = nil
 
 local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.DisplayOrder = 2147483647
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.Name = "VoidNotifs"
 ScreenGui.ResetOnSpawn = false
