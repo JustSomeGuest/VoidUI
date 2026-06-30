@@ -156,7 +156,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Logo.BackgroundTransparency = 1
     Logo.BorderSizePixel = 0
-    Logo.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    Logo.Image = ""
     Logo.LayoutOrder = 1
     Logo.Name = "Logo"
     Logo.Size = UDim2.new(0.2, 0, 0.3, 0)
