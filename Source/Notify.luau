@@ -109,18 +109,19 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
     NotifyLayout.Parent = Notify
 
-    local NotifyStroke = Instance.new("UIStroke")
-    NotifyStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    NotifyStroke.Color = Color3.fromRGB(110, 94, 253)
-    NotifyStroke.Name = "NotifyStroke"
-    NotifyStroke.Parent = Notify
+    local TopbarStroke = Instance.new("UIStroke")
+    TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
+    TopbarStroke.Name = "TopbarStroke"
+    TopbarStroke.Thickness = 1
+    TopbarStroke.Parent = Topbar
 
     local Topbar = Instance.new("Frame")
     Topbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Topbar.BorderSizePixel = 0
     Topbar.LayoutOrder = 1
     Topbar.Name = "Topbar"
-    Topbar.Size = UDim2.new(0.2, 0, 0.3, 0)
+    Topbar.Size = UDim2.new(1, 0, 0, 36)
     Topbar.Parent = Notify
 
     local TopbarLayout = Instance.new("UIListLayout")
@@ -142,13 +143,14 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local TopbarSizeCons = Instance.new("UISizeConstraint")
     TopbarSizeCons.MaxSize = Vector2.new(9999, 36)
-    TopbarSizeCons.MinSize = Vector2.new(50, 34)
+    TopbarSizeCons.MinSize = Vector2.new(50, 36)
     TopbarSizeCons.Name = "TopbarSizeCons"
     TopbarSizeCons.Parent = Topbar
 
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
+    TopbarStroke.Thickness = 1
     TopbarStroke.Name = "TopbarStroke"
     TopbarStroke.Parent = Topbar
 
