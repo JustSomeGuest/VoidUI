@@ -75,6 +75,8 @@ NotifsPadding.Parent = Notifs
 local function SlideIn(Notify, NotifyHolder)
     Notify.GroupTransparency = 1
     Notify.Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
+    Notify.Visible = true
+
     TweenService:Create(Notify, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
         GroupTransparency = 0,
         Position = UDim2.new(0, 0, 0, 0)
@@ -82,12 +84,18 @@ local function SlideIn(Notify, NotifyHolder)
 end
 
 local function SlideOut(Notify, NotifyHolder)
-    local slideOutTween = TweenService:Create(Notify, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+    local slideOut = TweenService:Create(Notify, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
         GroupTransparency = 1,
         Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
     })
-    slideOutTween:Play()
-    return slideOutTween
+
+    Notify.Visible = true
+    slideOut:Play()
+    slideOut.Completed:Wait()
+
+    Notify.GroupTransparency = 1
+    Notify.Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
+    Notify.Visible = false
 end
 
 function VoidNotifs:Notify(Title, Text, Duration)
