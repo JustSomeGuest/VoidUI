@@ -86,7 +86,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyHolder.Size = UDim2.new(1, 0, 0, 0)
     NotifyHolder.Parent = Notifs
 
-    local Notify = Instance.new("Frame")
+    local Notify = Instance.new("CanvasGroup")
     Notify.AutomaticSize = Enum.AutomaticSize.Y
     Notify.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
     Notify.BorderSizePixel = 0
@@ -109,13 +109,6 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
     NotifyLayout.Parent = Notify
 
-    local TopbarStroke = Instance.new("UIStroke")
-    TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
-    TopbarStroke.Name = "TopbarStroke"
-    TopbarStroke.Thickness = 1
-    TopbarStroke.Parent = Topbar
-
     local Topbar = Instance.new("Frame")
     Topbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Topbar.BorderSizePixel = 0
@@ -123,6 +116,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Topbar.Name = "Topbar"
     Topbar.Size = UDim2.new(1, 0, 0, 36)
     Topbar.Parent = Notify
+
+    local TopbarStroke = Instance.new("UIStroke")
+    TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
+    TopbarStroke.Name = "TopbarStroke"
+    TopbarStroke.Thickness = 1
+    TopbarStroke.Parent = Topbar
 
     local TopbarLayout = Instance.new("UIListLayout")
     TopbarLayout.FillDirection = Enum.FillDirection.Horizontal
