@@ -131,7 +131,6 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TopbarLayout.Name = "TopbarLayout"
     TopbarLayout.Padding = UDim.new(0, 4)
     TopbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    TopbarLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
     TopbarLayout.Parent = Topbar
 
     local TopbarPadding = Instance.new("UIPadding")
@@ -141,12 +140,6 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TopbarPadding.PaddingRight = UDim.new(0, 4)
     TopbarPadding.PaddingTop = UDim.new(0, 4)
     TopbarPadding.Parent = Topbar
-
-    local TopbarSizeCons = Instance.new("UISizeConstraint")
-    TopbarSizeCons.MaxSize = Vector2.new(9999, 36)
-    TopbarSizeCons.MinSize = Vector2.new(50, 36)
-    TopbarSizeCons.Name = "TopbarSizeCons"
-    TopbarSizeCons.Parent = Topbar
 
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
@@ -162,7 +155,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Logo.Image = ""
     Logo.LayoutOrder = 1
     Logo.Name = "Logo"
-    Logo.Size = UDim2.new(0.2, 0, 0.3, 0)
+    Logo.Size = UDim2.new(0.2, 0, 1, 0)
     Logo.Visible = SharedLogo ~= nil
     Logo.Parent = Topbar
 
@@ -181,7 +174,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.FontFace = Font.new("rbxasset://fonts/families/Fondamento.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
     TitleLabel.LayoutOrder = 2
     TitleLabel.Name = "Title"
-    TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
+    TitleLabel.Size = UDim2.new(0.2, 0, 1, 0)
     TitleLabel.Text = Title or "VoidNotifs"
     TitleLabel.TextColor3 = Color3.fromRGB(111, 95, 254)
     TitleLabel.TextScaled = true
