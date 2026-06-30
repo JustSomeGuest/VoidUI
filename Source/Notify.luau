@@ -109,6 +109,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
     NotifyLayout.Parent = Notify
 
+    local NotifyStroke = Instance.new("UIStroke")
+    NotifyStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    NotifyStroke.Color = Color3.fromRGB(110, 94, 253)
+    NotifyStroke.Name = "NotifyStroke"
+    NotifyStroke.Thickness = 1
+    NotifyStroke.Parent = Notify
+
     local Topbar = Instance.new("Frame")
     Topbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Topbar.BorderSizePixel = 0
@@ -116,13 +123,6 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Topbar.Name = "Topbar"
     Topbar.Size = UDim2.new(1, 0, 0, 36)
     Topbar.Parent = Notify
-
-    local TopbarStroke = Instance.new("UIStroke")
-    TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
-    TopbarStroke.Name = "TopbarStroke"
-    TopbarStroke.Thickness = 1
-    TopbarStroke.Parent = Topbar
 
     local TopbarLayout = Instance.new("UIListLayout")
     TopbarLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -150,8 +150,8 @@ function VoidNotifs:Notify(Title, Text, Duration)
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
-    TopbarStroke.Thickness = 1
     TopbarStroke.Name = "TopbarStroke"
+    TopbarStroke.Thickness = 1
     TopbarStroke.Parent = Topbar
 
     local Logo = Instance.new("ImageLabel")
