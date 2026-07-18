@@ -73,8 +73,6 @@ local Theme = {
     Text = Color3.fromRGB(255, 255, 255),
 }
 
-VoidNotifs.Theme = Theme
-
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.DisplayOrder = 2147483647
 ScreenGui.IgnoreGuiInset = true
@@ -136,6 +134,8 @@ local function SlideOut(Notify, NotifyHolder)
 end
 
 function VoidNotifs:Notify(Title, Text, Duration)
+    local currentTheme = self.Theme or Theme
+    
     local NotifyHolder = Instance.new("Frame")
     NotifyHolder.AutomaticSize = Enum.AutomaticSize.Y
     NotifyHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -147,7 +147,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local Notify = Instance.new("CanvasGroup")
     Notify.AutomaticSize = Enum.AutomaticSize.Y
-    Notify.BackgroundColor3 = Theme.Secondary
+    Notify.BackgroundColor3 = currentTheme.Secondary
     Notify.BorderSizePixel = 0
     Notify.Name = "Notify"
     Notify.Size = UDim2.new(1, 0, 0, 0)
@@ -168,13 +168,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local NotifyStroke = Instance.new("UIStroke")
     NotifyStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    NotifyStroke.Color = Theme.Accent
+    NotifyStroke.Color = currentTheme.Accent
     NotifyStroke.Name = "NotifyStroke"
     NotifyStroke.Thickness = 1
     NotifyStroke.Parent = Notify
 
     local Topbar = Instance.new("Frame")
-    Topbar.BackgroundColor3 = Theme.Secondary
+    Topbar.BackgroundColor3 = currentTheme.Secondary
     Topbar.BorderSizePixel = 0
     Topbar.LayoutOrder = 1
     Topbar.Name = "Topbar"
@@ -206,7 +206,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    TopbarStroke.Color = Theme.Accent
+    TopbarStroke.Color = currentTheme.Accent
     TopbarStroke.Name = "TopbarStroke"
     TopbarStroke.Thickness = 1
     TopbarStroke.Parent = Topbar
@@ -235,7 +235,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.Name = "Title"
     TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
     TitleLabel.Text = Title or "VoidUI"
-    TitleLabel.TextColor3 = Theme.Accent
+    TitleLabel.TextColor3 = currentTheme.Accent
     TitleLabel.TextScaled = true
     TitleLabel.TextWrapped = true
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -251,7 +251,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.Name = "Description"
     Description.Size = UDim2.new(1, 0, 0, 0)
     Description.Text = Text or "Description..."
-    Description.TextColor3 = Theme.Text
+    Description.TextColor3 = currentTheme.Text
     Description.TextSize = 16
     Description.TextWrapped = true
     Description.TextXAlignment = Enum.TextXAlignment.Left
@@ -290,5 +290,7 @@ function VoidNotifs:SetLogo(image)
         SharedLogo = nil
     end
 end
+
+VoidNotifs.Theme = Theme
 
 return VoidNotifs
