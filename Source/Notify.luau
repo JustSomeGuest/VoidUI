@@ -1,43 +1,79 @@
-if not game:IsLoaded() then 
-    game.Loaded:Wait() 
+if not game:IsLoaded() then
+    game.Loaded:Wait()
 end
 
-local function expect(expected, value, fallback)
-    if type(value) == expected then
-        return value
+local Shared = (function()
+    local Success, Env = pcall(getgenv)
+    return (Success and Env) or _G or (warn("[Shared]: Failed to access a usable global environment.") or {})
+end)()
+
+local function expect(ExpectedType, Value, Fallback)
+    if type(Value) == ExpectedType then
+        return Value
     end
-    if fallback ~= nil then
-        if type(fallback) == "function" then
+
+    if Fallback ~= nil then
+        if type(Fallback) == "function" then
             return function(...)
-                return fallback(...)
+                warn("[Expect]: Missing executor functionality. Using fallback function.")
+                return Fallback(...)
             end
         end
+
+        warn("[Expect]: Value has unexpected type. Using fallback value.")
     end
-    return fallback
+
+    return Fallback
 end
 
-local CloneRef = expect("function", cloneref, function(...) return ... end)
+local cloneref = expect("function", cloneref, function(...) return ... end)
 
 local Services = setmetatable({}, {
-    __index = function(self, name)
-        local success, cache = pcall(function()
-            return CloneRef(game:GetService(name))
+    __index = function(Self, Name)
+        local Success, Cache = pcall(function()
+            return cloneref(game:GetService(Name))
         end)
-        if success then
-            rawset(self, name, cache)
-            return cache
+
+        if Success then
+            rawset(Self, Name, Cache)
+            return Cache
         else
-            error("Invalid Service: " .. tostring(name))
+            error("Invalid Service: " .. tostring(Name))
         end
     end
 })
 
-local Success, Hui = pcall(function() return gethui and gethui() end)
-local CoreGui = (Success and typeof(Hui) == "Instance" and Hui) or Services.CoreGui
+local Hui = (gethui and gethui()) or Services.CoreGui
 local TweenService = Services.TweenService
+
+local function Tween(Object, Speed, Properties, EasingStyle, EasingDirection)
+    if EasingStyle == nil then
+        EasingStyle = "Quad"
+    end
+
+    if EasingDirection == nil then
+        EasingDirection = "Out"
+    end
+
+    local TweenInformation = TweenInfo.new(
+        Speed,
+        Enum.EasingStyle[EasingStyle],
+        Enum.EasingDirection[EasingDirection]
+    )
+
+    return TweenService:Create(Object, TweenInformation, Properties)
+end
 
 local VoidNotifs = {}
 local SharedLogo = nil
+
+local Theme = {
+    Accent = Color3.fromRGB(110, 94, 253),
+    Secondary = Color3.fromRGB(14, 14, 14),
+    Text = Color3.fromRGB(255, 255, 255),
+}
+
+VoidNotifs.Theme = Theme
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.DisplayOrder = 2147483647
@@ -46,7 +82,7 @@ ScreenGui.Name = "VoidNotifs"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.Parent = CoreGui
+ScreenGui.Parent = Hui
 
 local Notifs = Instance.new("Frame")
 Notifs.AnchorPoint = Vector2.new(1, 0.5)
@@ -78,17 +114,17 @@ local function SlideIn(Notify, NotifyHolder)
     Notify.Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
     Notify.Visible = true
 
-    TweenService:Create(Notify, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Tween(Notify, 0.5, {
         GroupTransparency = 0,
         Position = UDim2.new(0, 0, 0, 0)
-    }):Play()
+    }, "Back", "Out"):Play()
 end
 
 local function SlideOut(Notify, NotifyHolder)
-    local slideOut = TweenService:Create(Notify, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+    local slideOut = Tween(Notify, 0.4, {
         GroupTransparency = 1,
         Position = UDim2.new(0, NotifyHolder.AbsoluteSize.X + 100, 0, 0)
-    })
+    }, "Back", "In")
 
     Notify.Visible = true
     slideOut:Play()
@@ -111,7 +147,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local Notify = Instance.new("CanvasGroup")
     Notify.AutomaticSize = Enum.AutomaticSize.Y
-    Notify.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
+    Notify.BackgroundColor3 = Theme.Secondary
     Notify.BorderSizePixel = 0
     Notify.Name = "Notify"
     Notify.Size = UDim2.new(1, 0, 0, 0)
@@ -132,13 +168,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local NotifyStroke = Instance.new("UIStroke")
     NotifyStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    NotifyStroke.Color = Color3.fromRGB(110, 94, 253)
+    NotifyStroke.Color = Theme.Accent
     NotifyStroke.Name = "NotifyStroke"
     NotifyStroke.Thickness = 1
     NotifyStroke.Parent = Notify
 
     local Topbar = Instance.new("Frame")
-    Topbar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Topbar.BackgroundColor3 = Theme.Secondary
     Topbar.BorderSizePixel = 0
     Topbar.LayoutOrder = 1
     Topbar.Name = "Topbar"
@@ -170,7 +206,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
 
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    TopbarStroke.Color = Color3.fromRGB(110, 94, 253)
+    TopbarStroke.Color = Theme.Accent
     TopbarStroke.Name = "TopbarStroke"
     TopbarStroke.Thickness = 1
     TopbarStroke.Parent = Topbar
@@ -183,7 +219,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Logo.LayoutOrder = 1
     Logo.Name = "Logo"
     Logo.Size = UDim2.new(0.2, 0, 0.3, 0)
-    Logo.Visible = SharedLogo ~= nil
+    Logo.Visible = SharedLogo ~= nil and SharedLogo ~= ""
     Logo.Parent = Topbar
 
     local LogoRatio = Instance.new("UIAspectRatioConstraint")
@@ -199,7 +235,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.Name = "Title"
     TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
     TitleLabel.Text = Title or "VoidUI"
-    TitleLabel.TextColor3 = Color3.fromRGB(111, 95, 254)
+    TitleLabel.TextColor3 = Theme.Accent
     TitleLabel.TextScaled = true
     TitleLabel.TextWrapped = true
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -215,7 +251,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.Name = "Description"
     Description.Size = UDim2.new(1, 0, 0, 0)
     Description.Text = Text or "Description..."
-    Description.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Description.TextColor3 = Theme.Text
     Description.TextSize = 16
     Description.TextWrapped = true
     Description.TextXAlignment = Enum.TextXAlignment.Left
@@ -248,8 +284,10 @@ function VoidNotifs:Notify(Title, Text, Duration)
 end
 
 function VoidNotifs:SetLogo(image)
-    if image then
+    if image and image ~= "" then
         SharedLogo = image
+    else
+        SharedLogo = nil
     end
 end
 
