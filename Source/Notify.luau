@@ -67,10 +67,16 @@ end
 local VoidNotifs = {}
 local SharedLogo = nil
 
-local Theme = {
-    Accent = Color3.fromRGB(110, 94, 253),
-    Secondary = Color3.fromRGB(14, 14, 14),
-    Text = Color3.fromRGB(255, 255, 255),
+local Settings = {
+    Theme = {
+        Accent = Color3.fromRGB(110, 94, 253),
+        Secondary = Color3.fromRGB(14, 14, 14),
+        Text = Color3.fromRGB(255, 255, 255),
+    },
+    Fonts = {
+        Title = Font.new("rbxasset://fonts/families/Fondamento.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+        Description = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+    }
 }
 
 local ScreenGui = Instance.new("ScreenGui")
@@ -134,7 +140,9 @@ local function SlideOut(Notify, NotifyHolder)
 end
 
 function VoidNotifs:Notify(Title, Text, Duration)
-    local currentTheme = self.Theme or Theme
+    local currentSettings = self.Settings or Settings
+    local currentTheme = currentSettings.Theme
+    local currentFonts = currentSettings.Fonts
     
     local NotifyHolder = Instance.new("Frame")
     NotifyHolder.AutomaticSize = Enum.AutomaticSize.Y
@@ -230,7 +238,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     TitleLabel.BackgroundTransparency = 1
     TitleLabel.BorderSizePixel = 0
-    TitleLabel.FontFace = Font.new("rbxasset://fonts/families/Fondamento.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+    TitleLabel.FontFace = currentFonts.Title
     TitleLabel.LayoutOrder = 2
     TitleLabel.Name = "Title"
     TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
@@ -246,7 +254,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Description.BackgroundTransparency = 1
     Description.BorderSizePixel = 0
-    Description.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+    Description.FontFace = currentFonts.Description
     Description.LayoutOrder = 2
     Description.Name = "Description"
     Description.Size = UDim2.new(1, 0, 0, 0)
@@ -291,6 +299,6 @@ function VoidNotifs:SetLogo(image)
     end
 end
 
-VoidNotifs.Theme = Theme
+VoidNotifs.Settings = Settings
 
 return VoidNotifs
