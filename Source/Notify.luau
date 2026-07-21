@@ -282,12 +282,11 @@ function VoidNotifs:Notify(Title, Text, Duration)
             return
         end
 
-        local slideOutTween = SlideOut(Notify, NotifyHolder)
-        slideOutTween.Completed:Connect(function()
-            if NotifyHolder and NotifyHolder.Parent then
-                NotifyHolder:Destroy()
-            end
-        end)
+        SlideOut(Notify, NotifyHolder)
+
+        if NotifyHolder and NotifyHolder.Parent then
+            NotifyHolder:Destroy()
+        end
     end)
 end
 
