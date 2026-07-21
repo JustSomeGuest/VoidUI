@@ -101,7 +101,7 @@ Notifs.Parent = ScreenGui
 local NotifsLayout = Instance.new("UIListLayout")
 NotifsLayout.HorizontalFlex = Enum.UIFlexAlignment.Fill
 NotifsLayout.Name = "NotifsLayout"
-NotifsLayout.Padding = UDim.new(0, 4)
+NotifsLayout.Padding = UDim.new(0, 6)
 NotifsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 NotifsLayout.Parent = Notifs
 
