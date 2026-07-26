@@ -74,9 +74,9 @@ local Settings = {
         Text = Color3.fromRGB(255, 255, 255),
     },
     Fonts = {
-        Title = Font.new("rbxasset://fonts/families/Fondamento.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+        Title = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
         Description = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
-    }
+    },
 }
 
 local ScreenGui = Instance.new("ScreenGui")
