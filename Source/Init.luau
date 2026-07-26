@@ -46,8 +46,7 @@ local Services = setmetatable({}, {
     end
 })
 
-local Success, Hui = pcall(function() return gethui and gethui() end)
-local CoreGui = (Success and typeof(Hui) == "Instance" and Hui) or Services.CoreGui
+local Hui = (gethui and gethui()) or Services.CoreGui
 local Players = Services.Players
 local TweenService = Services.TweenService
 local UserInputService = Services.UserInputService
@@ -291,57 +290,21 @@ ScreenGui.DisplayOrder = 2147483646
 ScreenGui.Name = "VoidUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.Parent = CoreGui
+ScreenGui.Parent = Hui
 
 ScreenGui.Destroying:Connect(function()
     Shared.VoidUI.IsLoaded = false
 end)
 
-local Show = Instance.new("TextButton")
-Show.BackgroundColor3 = Defaults.BackgroundColor
-Show.BorderSizePixel = 0
-Show.FontFace = Font.new("rbxasset://fonts/families/Fondamento.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-Show.Name = "Show"
-Show.Position = UDim2.new(0, 18, 0, 3)
-Show.Size = UDim2.new(0, 38, 0, 38)
-Show.Text = "V"
-Show.TextColor3 = Defaults.Accent
-Show.TextScaled = true
-Show.TextWrapped = true
-Show.Visible = false
-Show.Parent = ScreenGui
-
-local ShowCorner = Instance.new("UICorner")
-ShowCorner.CornerRadius = UDim.new(0, 4)
-ShowCorner.Parent = Show
-
-local ShowIcon = Instance.new("ImageLabel")
-ShowIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-ShowIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ShowIcon.BackgroundTransparency = 1
-ShowIcon.BorderColor3 = Color3.fromRGB(255, 255, 255)
-ShowIcon.BorderSizePixel = 0
-ShowIcon.Name = "ShowIcon"
-ShowIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
-ShowIcon.Size = UDim2.new(1, -4, 1, -4)
-ShowIcon.Visible = false
-ShowIcon.Parent = Show
-
-local ShowRatio = Instance.new("UIAspectRatioConstraint")
-ShowRatio.Parent = Show
-
-local ShowStroke = Instance.new("UIStroke")
-ShowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-ShowStroke.Color = Defaults.Accent
-ShowStroke.Parent = Show
+local HasLogo = false
 
 local Main = Instance.new("CanvasGroup")
 Main.BackgroundColor3 = Defaults.BackgroundColor
 Main.BorderSizePixel = 0
 Main.GroupTransparency = 0
 Main.Name = "Main"
-Main.Position = UDim2.new(0, 60, 0, 2)
-Main.Size = UDim2.new(0.7, 0, 0.9, 0)
+Main.Position = UDim2.new(0, 16, 0, 4)
+Main.Size = UDim2.new(0.7, 0, 0.89, 0)
 Main.Visible = true
 Main.ZIndex = 2
 Main.Parent = ScreenGui
@@ -366,50 +329,29 @@ Topbar.BackgroundTransparency = 1
 Topbar.BorderSizePixel = 0
 Topbar.LayoutOrder = 1
 Topbar.Name = "Topbar"
-Topbar.Size = UDim2.new(1, 0, 0.1, 0)
+Topbar.Size = UDim2.new(0, 430, 0, 30)
 Topbar.Parent = Main
+
+local TopbarConstraint = Instance.new("UISizeConstraint")
+TopbarConstraint.MinSize = Vector2.new(0, 34)
+TopbarConstraint.MaxSize = Vector2.new(math.huge, 34)
+TopbarConstraint.Parent = Topbar
 
 local TopbarLayout = Instance.new("UIListLayout")
 TopbarLayout.FillDirection = Enum.FillDirection.Horizontal
 TopbarLayout.HorizontalFlex = Enum.UIFlexAlignment.Fill
-TopbarLayout.Padding = UDim.new(0, 2)
+TopbarLayout.Padding = UDim.new(0, 4)
 TopbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+TopbarLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 TopbarLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
 TopbarLayout.Parent = Topbar
 
-local Close = Instance.new("TextButton")
-Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Close.BackgroundTransparency = 1
-Close.BorderSizePixel = 0
-Close.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal)
-Close.LayoutOrder = 4
-Close.Name = "Close"
-Close.Size = UDim2.new(0.2, 0, 1, 0)
-Close.Text = "×"
-Close.TextColor3 = Defaults.Accent
-Close.TextScaled = true
-Close.TextWrapped = true
-Close.Parent = Topbar
-
-local CloseRatio = Instance.new("UIAspectRatioConstraint")
-CloseRatio.Parent = Close
-
-local Hide = Instance.new("TextButton")
-Hide.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Hide.BackgroundTransparency = 1
-Hide.BorderSizePixel = 0
-Hide.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal)
-Hide.LayoutOrder = 3
-Hide.Name = "Hide"
-Hide.Size = UDim2.new(0.2, 0, 1, 0)
-Hide.Text = "-"
-Hide.TextColor3 = Defaults.Accent
-Hide.TextScaled = true
-Hide.TextWrapped = true
-Hide.Parent = Topbar
-
-local HideRatio = Instance.new("UIAspectRatioConstraint")
-HideRatio.Parent = Hide
+local TopbarPadding = Instance.new("UIPadding")
+TopbarPadding.PaddingBottom = UDim.new(0, 2)
+TopbarPadding.PaddingLeft = UDim.new(0, 6)
+TopbarPadding.PaddingRight = UDim.new(0, 2)
+TopbarPadding.PaddingTop = UDim.new(0, 2)
+TopbarPadding.Parent = Topbar
 
 local Logo = Instance.new("Frame")
 Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -435,27 +377,82 @@ LogoIcon.Parent = Logo
 local LogoRatio = Instance.new("UIAspectRatioConstraint")
 LogoRatio.Parent = Logo
 
+local LogoConstraint = Instance.new("UISizeConstraint")
+LogoConstraint.MinSize = Vector2.new(0, 28)
+LogoConstraint.MaxSize = Vector2.new(math.huge, 28)
+LogoConstraint.Parent = Logo
+
+local LogoCorner = Instance.new("UICorner")
+LogoCorner.CornerRadius = UDim.new(0, 4)
+LogoCorner.Parent = Logo
+
 local Title = Instance.new("TextLabel")
 Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Title.BackgroundTransparency = 1
 Title.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal)
 Title.LayoutOrder = 2
 Title.Name = "Title"
-Title.Size = UDim2.new(0.6, 0, 1, 0)
-Title.Text = "VoidUI Library"
+Title.Size = UDim2.new(0, 0, 1, 0)
+Title.Text = "VoidUI"
 Title.TextColor3 = Defaults.Accent
-Title.TextScaled = true
-Title.TextSize = 14
+Title.TextScaled = false
+Title.TextSize = 22
+Title.TextTruncate = Enum.TextTruncate.AtEnd
 Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Position = UDim2.new(0, 0, 0, -2)
 Title.Parent = Topbar
 
-local TitlePadding = Instance.new("UIPadding")
-TitlePadding.PaddingBottom = UDim.new(0, 4)
-TitlePadding.PaddingLeft = UDim.new(0, 6)
-TitlePadding.PaddingRight = UDim.new(0, 4)
-TitlePadding.PaddingTop = UDim.new(0, 4)
-TitlePadding.Parent = Title
+local Toggle = Instance.new("TextButton")
+Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Toggle.BackgroundTransparency = 1
+Toggle.BorderSizePixel = 0
+Toggle.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal)
+Toggle.LayoutOrder = 3
+Toggle.Name = "Toggle"
+Toggle.Size = UDim2.new(0.2, 0, 1, 0)
+Toggle.Text = ""
+Toggle.TextColor3 = Defaults.Accent
+Toggle.TextScaled = true
+Toggle.TextWrapped = true
+Toggle.Parent = Topbar
+
+local TogglePadding = Instance.new("UIPadding")
+TogglePadding.PaddingTop = UDim.new(0, 2)
+TogglePadding.PaddingRight = UDim.new(0, 2)
+TogglePadding.PaddingBottom = UDim.new(0, 2)
+TogglePadding.Parent = Toggle
+
+local ToggleRatio = Instance.new("UIAspectRatioConstraint")
+ToggleRatio.Parent = Toggle
+
+local ToggleFrame = Instance.new("Frame")
+ToggleFrame.BorderSizePixel = 0
+ToggleFrame.BackgroundColor3 = Defaults.Accent
+ToggleFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+ToggleFrame.Size = UDim2.new(0, 2, 1, 0)
+ToggleFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+ToggleFrame.Name = "ToggleFrame"
+ToggleFrame.Rotation = 90
+ToggleFrame.Parent = Toggle
+
+local ToggleFrameCorner = Instance.new("UICorner")
+ToggleFrameCorner.CornerRadius = UDim.new(0, 4)
+ToggleFrameCorner.Parent = ToggleFrame
+
+local ToggleFrame2 = Instance.new("Frame")
+ToggleFrame2.BorderSizePixel = 0
+ToggleFrame2.BackgroundColor3 = Defaults.Accent
+ToggleFrame2.AnchorPoint = Vector2.new(0.5, 0.5)
+ToggleFrame2.Size = UDim2.new(0, 2, 1, 0)
+ToggleFrame2.Position = UDim2.new(0.5, 0, 0.5, 0)
+ToggleFrame2.Name = "ToggleFrame2"
+ToggleFrame2.Rotation = 0
+ToggleFrame2.Parent = ToggleFrame
+
+local ToggleFrame2Corner = Instance.new("UICorner")
+ToggleFrame2Corner.CornerRadius = UDim.new(0, 4)
+ToggleFrame2Corner.Parent = ToggleFrame2
 
 local Container = Instance.new("Frame")
 Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -534,20 +531,25 @@ local SettingsTab = nil
 local FirstTab = nil
 local ColorBoxes = {}
 
+local MainClosed = false
+local SavedTitle = Title.Text
+local MainTweening = false
+local OpenSize = Main.Size
+local OpenPos = Main.Position
+local ClosedPos = Main.Position
+
 local UpdateSettingsTabColors
 local UpdateUserTabsColors
 
 local function ApplyAccentColor(color)
     Defaults.Accent = color
     ThemeSettings.Accent = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
-    
-    Close.TextColor3 = color
-    Hide.TextColor3 = color
+
     MainStroke.Color = color
-    Show.TextColor3 = color
-    ShowStroke.Color = color
     Title.TextColor3 = color
-    
+    ToggleFrame.BackgroundColor3 = color
+    ToggleFrame2.BackgroundColor3 = color
+
     UpdateSettingsTabColors()
     UpdateUserTabsColors()
 end
@@ -555,21 +557,20 @@ end
 local function ApplyBackgroundColor(color)
     Defaults.BackgroundColor = color
     ThemeSettings.BackgroundColor = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
-    
+
     Main.BackgroundColor3 = color
-    Show.BackgroundColor3 = color
 end
 
 local function ApplyNonSelectedTextColor(color)
     Defaults.NonSelectedTextColor = color
     ThemeSettings.NonSelectedTextColor = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
-    
+
     for _, tabData in pairs(UserTabs) do
         if tabData.Content and not tabData.Content.Visible then
             tabData.Label.TextColor3 = color
         end
     end
-    
+
     if SettingsTab and SettingsTab.Content and not SettingsTab.Content.Visible then
         SettingsTab.Label.TextColor3 = color
     end
@@ -578,7 +579,7 @@ end
 local function ApplySecondaryColor(color)
     Defaults.Secondary = color
     ThemeSettings.Secondary = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
-    
+
     UpdateSettingsTabColors()
     UpdateUserTabsColors()
 end
@@ -586,7 +587,7 @@ end
 local function ApplyTextColor(color)
     Defaults.TextColor = color
     ThemeSettings.TextColor = string.format("%d, %d, %d", color.R * 255, color.G * 255, color.B * 255)
-    
+
     UpdateSettingsTabColors()
     UpdateUserTabsColors()
 end
@@ -601,7 +602,7 @@ end
 
 function UpdateSettingsTabColors()
     if not SettingsTab or not SettingsTab.Content then return end
-    
+
     for _, child in ipairs(SettingsTab.Content:GetChildren()) do
         if child:IsA("Frame") then
             if child.Name:find("Color") then
@@ -753,13 +754,13 @@ local function SwitchTab(tabData)
             data.Label.TextColor3 = Defaults.NonSelectedTextColor
             data.Underline.Size = UDim2.new(0, 0, 0, 2)
         end
-        
+
         if SettingsTab then
             SettingsTab.Content.Visible = false
             SettingsTab.Label.TextColor3 = Defaults.NonSelectedTextColor
             SettingsTab.Underline.Size = UDim2.new(0, 0, 0, 2)
         end
-        
+
         tabData.Content.Visible = true
         tabData.Label.TextColor3 = Defaults.Accent
         tabData.Underline.Size = UDim2.new(1, 0, 0, 2)
@@ -800,13 +801,13 @@ local function ResetTheme()
         ThemeSettings[k] = v
     end
     IsDevTheme = true
-    
+
     local accentColor = ParseColor(DevTheme.Accent) or Color3.fromRGB(110, 94, 253)
     local bgColor = ParseColor(DevTheme.BackgroundColor) or Color3.fromRGB(14, 14, 14)
     local nonSelectedTextColor = ParseColor(DevTheme.NonSelectedTextColor) or Color3.fromRGB(141, 141, 141)
     local secondaryColor = ParseColor(DevTheme.Secondary) or Color3.fromRGB(29, 29, 29)
     local textColor = ParseColor(DevTheme.TextColor) or Color3.fromRGB(255, 255, 255)
-    
+
     ApplyAccentColor(accentColor)
     ApplyBackgroundColor(bgColor)
     ApplyNonSelectedTextColor(nonSelectedTextColor)
@@ -823,7 +824,7 @@ local function ResetTheme()
             end
         end
     end
-    
+
     pcall(function()
         DelFile(SettingsData)
     end)
@@ -1713,7 +1714,7 @@ function VoidUI:New(elementType, config)
         }
 
         UserTabs[tabName] = tabData
-        
+
         if not FirstTab then
             FirstTab = tabData
         end
@@ -1752,11 +1753,9 @@ function VoidUI:SetLogo(image)
     end
     local asset = GetFile(image)
     if asset then
+        HasLogo = true
         Logo.Visible = true
         LogoIcon.Image = asset
-        Show.Text = ""
-        ShowIcon.Image = asset
-        ShowIcon.Visible = true
         VoidNotifs:SetLogo(asset)
     end
 end
@@ -1818,61 +1817,66 @@ end
 
 SettingsTab = CreateSettingsTab()
 
-Dragify(Show)
 Dragify(Topbar, Main)
 
-local function HideMain()
-    if ThemeSettings.Animations then
-        local slideOut = TweenService:Create(Main, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-            GroupTransparency = 1,
-            Position = UDim2.new(0, Main.Position.X.Offset + 100, 0, Main.Position.Y.Offset)
-        })
-        Main.Visible = true
-        Show.Visible = false
-        slideOut:Play()
-        slideOut.Completed:Wait()
-        Main.GroupTransparency = 1
-        Main.Position = UDim2.new(0, 60, 0, 2)
-        Main.Visible = false
-        Show.Visible = true
-    else
-        Main.Visible = false
-        Show.Visible = true
-    end
-end
+Toggle.MouseButton1Click:Connect(function()
+    if MainTweening then return end
+    MainTweening = true
+    MainClosed = not MainClosed
 
-local function ShowMain()
-    if ThemeSettings.Animations then
-        Main.GroupTransparency = 1
-        Main.Position = UDim2.new(0, Main.Position.X.Offset + 100, 0, Main.Position.Y.Offset)
-        Main.Visible = true
-        Show.Visible = false
-        TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-            GroupTransparency = 0,
-            Position = UDim2.new(0, 60, 0, 2)
+    if MainClosed then
+        OpenSize = Main.Size
+        OpenPos = Main.Position
+              
+        SavedTitle = Title.Text
+        Title.Text = "VoidUI"
+              
+        local topbarH = Topbar.AbsoluteSize.Y
+        local closedW
+
+        if HasLogo then
+            closedW = 134
+        else
+            closedW = 104
+        end
+
+        TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+            Size = UDim2.fromOffset(closedW, topbarH),
+            Position = ClosedPos
         }):Play()
+
+        TweenService:Create(ToggleFrame2, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+            Rotation = 90
+        }):Play()
+
+        task.delay(0.15, function()
+            Container.Visible = false
+        end)
+
+        task.delay(0.55, function()
+            MainTweening = false
+        end)
     else
-        Main.GroupTransparency = 0
-        Main.Visible = true
-        Show.Visible = false
-    end
-end
+        ClosedPos = Main.Position
 
-Close.MouseButton1Click:Connect(function()
-    if ThemeSettings.Animations then
-        local slideOut = TweenService:Create(Main, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-            GroupTransparency = 1,
-            Position = UDim2.new(0, Main.Position.X.Offset + 100, 0, Main.Position.Y.Offset)
-        })
-        slideOut:Play()
-        slideOut.Completed:Wait()
+        Title.Text = SavedTitle
+                    
+        Container.Visible = true
+
+        TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+            Size = OpenSize,
+            Position = OpenPos
+        }):Play()
+
+        TweenService:Create(ToggleFrame2, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+            Rotation = 0
+        }):Play()
+
+        task.delay(0.55, function()
+            MainTweening = false
+        end)
     end
-    Shared.VoidUI.IsLoaded = false
-    ScreenGui:Destroy()
 end)
-
-Hide.MouseButton1Click:Connect(HideMain)
-Show.MouseButton1Click:Connect(ShowMain)
 
 Players.PlayerRemoving:Connect(function(leavingPlayer)
     if leavingPlayer ~= Player then
@@ -1887,7 +1891,7 @@ Players.PlayerRemoving:Connect(function(leavingPlayer)
 end)
 
 if FirstTab then
-    repeat task.wait() until Tabs.AbsoluteSize.X > 0 and Tabs.AbsoluteSize.Y > 0
+    repeat task.wait() until Main.AbsoluteSize.X > 0 and Pages.AbsoluteSize.X > 0
     SwitchTab(FirstTab)
 end
 
