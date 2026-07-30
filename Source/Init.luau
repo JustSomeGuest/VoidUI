@@ -152,7 +152,7 @@ local function ParseColor(input)
     return nil
 end
 
-local DevTheme = {
+local CustomTheme = {
     Accent = "110, 94, 253",
     BackgroundColor = "14, 14, 14",
     NonSelectedTextColor = "141, 141, 141",
@@ -169,7 +169,7 @@ local ThemeSettings = {
     TextColor = "255, 255, 255"
 }
 
-local IsDevTheme = true
+local IsCustomTheme = true
 
 local function SaveSettings()
     local data = {}
@@ -206,7 +206,7 @@ local function LoadSettings()
         for k, v in pairs(data) do
             ThemeSettings[k] = v
         end
-        IsDevTheme = false
+        IsCustomTheme = false
     end
 end
 
@@ -313,6 +313,15 @@ local MainStroke = Instance.new("UIStroke")
 MainStroke.Color = Defaults.Accent
 MainStroke.Name = UID(32)
 MainStroke.Parent = Main
+
+local Shadow = Instance.new("UIShadow")
+Shadow.BlurRadius = UDim.new(0, 24)
+Shadow.Color = CustomTheme.Accent
+Shadow.Name = UID(32)
+Shadow.Offset = UDim2.fromOffset(0, 0)
+Shadow.Spread = UDim2.fromOffset(7, 7)
+Shadow.Transparency = 0.25
+Shadow.Parent = Main
 
 local Topbar = Instance.new("Frame")
 Topbar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -599,8 +608,8 @@ end
 
 local function UpdateColorPlaceholders()
     for key, textBox in pairs(ColorBoxes) do
-        if textBox and DevTheme[key] then
-            textBox.PlaceholderText = DevTheme[key]
+        if textBox and CustomTheme[key] then
+            textBox.PlaceholderText = CustomTheme[key]
         end
     end
 end
@@ -705,15 +714,15 @@ local function SwitchTab(tabData)
 end
 
 local function ResetTheme()
-    for k, v in pairs(DevTheme) do
+    for k, v in pairs(CustomTheme) do
         ThemeSettings[k] = v
     end
-    IsDevTheme = true
-    local accentColor = ParseColor(DevTheme.Accent) or Color3.fromRGB(110, 94, 253)
-    local bgColor = ParseColor(DevTheme.BackgroundColor) or Color3.fromRGB(14, 14, 14)
-    local nonSelectedTextColor = ParseColor(DevTheme.NonSelectedTextColor) or Color3.fromRGB(141, 141, 141)
-    local secondaryColor = ParseColor(DevTheme.Secondary) or Color3.fromRGB(29, 29, 29)
-    local textColor = ParseColor(DevTheme.TextColor) or Color3.fromRGB(255, 255, 255)
+    IsCustomTheme = true
+    local accentColor = ParseColor(CustomTheme.Accent) or Color3.fromRGB(110, 94, 253)
+    local bgColor = ParseColor(CustomTheme.BackgroundColor) or Color3.fromRGB(14, 14, 14)
+    local nonSelectedTextColor = ParseColor(CustomTheme.NonSelectedTextColor) or Color3.fromRGB(141, 141, 141)
+    local secondaryColor = ParseColor(CustomTheme.Secondary) or Color3.fromRGB(29, 29, 29)
+    local textColor = ParseColor(CustomTheme.TextColor) or Color3.fromRGB(255, 255, 255)
     ApplyAccentColor(accentColor)
     ApplyBackgroundColor(bgColor)
     ApplyNonSelectedTextColor(nonSelectedTextColor)
@@ -864,7 +873,7 @@ local function CreateSettingsTab()
         textBox.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
         textBox.LayoutOrder = 2
         textBox.PlaceholderColor3 = Defaults.NonSelectedTextColor
-        textBox.PlaceholderText = DevTheme[key]
+        textBox.PlaceholderText = CustomTheme[key]
         textBox.Name = UID(32)
         textBox.Size = UDim2.new(0.2, 0, 0.3, 0)
         textBox.Text = ""
@@ -892,13 +901,13 @@ local function CreateSettingsTab()
             if enterPressed then
                 local color
                 if textBox.Text == "" then
-                    color = ParseColor(DevTheme[key])
+                    color = ParseColor(CustomTheme[key])
                 else
                     color = ParseColor(textBox.Text)
                 end
                 if color then
                     applyFunc(color)
-                    IsDevTheme = false
+                    IsCustomTheme = false
                     SaveSettings()
                 end
             end
@@ -1510,7 +1519,7 @@ function VoidUI:SetTheme(theme)
     for k, v in pairs(theme) do
         local parsed = ParseColor(v)
         if parsed then
-            DevTheme[k] = string.format("%d, %d, %d", parsed.R * 255, parsed.G * 255, parsed.B * 255)
+            CustomTheme[k] = string.format("%d, %d, %d", parsed.R * 255, parsed.G * 255, parsed.B * 255)
         end
     end
     if theme.Accent then
@@ -1544,7 +1553,7 @@ function VoidUI:SetTheme(theme)
         end
     end
     UpdateColorPlaceholders()
-    if not IsDevTheme then
+    if not IsCustomTheme then
         SaveSettings()
     end
 end
