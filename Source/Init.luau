@@ -316,7 +316,7 @@ MainStroke.Parent = Main
 
 local Shadow = Instance.new("UIShadow")
 Shadow.BlurRadius = UDim.new(0, 24)
-Shadow.Color = CustomTheme.Accent
+Shadow.Color = Defaults.Accent
 Shadow.Name = UID(32)
 Shadow.Offset = UDim2.fromOffset(0, 0)
 Shadow.Spread = UDim2.fromOffset(7, 7)
@@ -563,6 +563,7 @@ local function ApplyAccentColor(color)
     Title.TextColor3 = color
     ToggleFrame.BackgroundColor3 = color
     ToggleFrame2.BackgroundColor3 = color
+    Shadow.Color = color
     for _, tabData in pairs(UserTabs) do
         tabData.Underline.BackgroundColor3 = color
     end
