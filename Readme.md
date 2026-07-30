@@ -152,7 +152,6 @@ VoidUI:New("Inputbox", {
 Every window automatically includes a **Settings** tab with the following options:
 
 - Reset Theme
-- Enable/Disable Animations
 - Background Color (RGB)
 - Accent Color (RGB)
 - Secondary Color (RGB)
