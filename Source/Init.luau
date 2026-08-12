@@ -48,7 +48,7 @@ local DelFolder = type(delfolder) == "function" and delfolder or function() end
 local ListFiles = type(listfiles) == "function" and listfiles or function() return {} end
 local LoadFile = (type(getcustomasset) == "function" and getcustomasset) or (type(getsynasset) == "function" and getsynasset) or nil
 
-local VoidNotifs = loadstring(game.HttpGetAsync and game:HttpGetAsync("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Notify.luau") or game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Notify.luau"))()
+local VoidNotifs = loadstring((game.HttpGetAsync and game:HttpGetAsync or game:HttpGet)(game, "https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Notify.luau"))()
 
 Shared.VoidUI = Shared.VoidUI or {}
 
