@@ -11,12 +11,11 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 # Screenshots
 
 <p align="center">
-  <img src="Assets/VoidUI-Screenshot1.png" alt="VoidUI Elements">
+  <img src="Assets/Screenshot-1.jpg" alt="VoidUI Elements">
 </p>
 
 <p align="center">
-  <img src="Assets/VoidUI-Screenshot2.png" alt="VoidUI Settings Part 1" width="49%">
-  <img src="Assets/VoidUI-Screenshot3.png" alt="VoidUI Settings Part 2" width="49%">
+  <img src="Assets/Screenshot-2.jpg" alt="VoidUI Elements">
 </p>
 
 ---
