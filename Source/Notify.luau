@@ -2,67 +2,40 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local Shared = (function()
-    local Success, Env = pcall(getgenv)
-    return (Success and Env) or _G or (warn("[Shared]: Failed to access a usable global environment.") or {})
-end)()
+local Shared = (type(getgenv) == "function" and getgenv()) or shared or _G
 
-local function expect(ExpectedType, Value, Fallback)
-    if type(Value) == ExpectedType then
-        return Value
-    end
-
-    if Fallback ~= nil then
-        if type(Fallback) == "function" then
-            return function(...)
-                warn("[Expect]: Missing executor functionality. Using fallback function.")
-                return Fallback(...)
-            end
-        end
-
-        warn("[Expect]: Value has unexpected type. Using fallback value.")
-    end
-
-    return Fallback
+local function GetService(Service)
+    local Service = game:GetService(Service)
+    return cloneref and cloneref(Service) or Service
 end
 
-local cloneref = expect("function", cloneref, function(...) return ... end)
+local Hui = gethui and gethui() or GetService("CoreGui")
+local TweenService = GetService("TweenService")
 
-local Services = setmetatable({}, {
-    __index = function(Self, Name)
-        local Success, Cache = pcall(function()
-            return cloneref(game:GetService(Name))
-        end)
-
-        if Success then
-            rawset(Self, Name, Cache)
-            return Cache
-        else
-            error("Invalid Service: " .. tostring(Name))
-        end
-    end
-})
-
-local Hui = (gethui and gethui()) or Services.CoreGui
-local TweenService = Services.TweenService
-
-local function Tween(Object, Speed, Properties, EasingStyle, EasingDirection)
-    if EasingStyle == nil then
-        EasingStyle = "Quad"
-    end
-
-    if EasingDirection == nil then
-        EasingDirection = "Out"
-    end
-
-    local TweenInformation = TweenInfo.new(
-        Speed,
-        Enum.EasingStyle[EasingStyle],
-        Enum.EasingDirection[EasingDirection]
+local function Tween(Object, Speed, Props, Style, Dir)
+    return TweenService:Create(
+        Object,
+        TweenInfo.new(
+            Speed,
+            Enum.EasingStyle[Style or "Quad"],
+            Enum.EasingDirection[Dir or "Out"]
+        ),
+        Props
     )
-
-    return TweenService:Create(Object, TweenInformation, Properties)
 end
+
+Shared.VoidNotifs = Shared.VoidNotifs or {}
+
+if Shared.VoidNotifs.IsLoaded then
+    StarterGui:SetCore("SendNotification", {
+        Title = "VoidNotifs",
+        Text = "VoidNotifs is already running!",
+        Duration = 4
+    })
+    return
+end
+
+Shared.VoidNotifs.IsLoaded = true
 
 local VoidNotifs = {}
 local SharedLogo = nil
