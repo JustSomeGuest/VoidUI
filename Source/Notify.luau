@@ -26,7 +26,7 @@ local function Tween(Object, Speed, Props, Style, Dir)
 end
 
 local function UID(Length)
-    Length = Length or 32
+    Length = Length or 64
 
     local Chars = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]]
     local Id = table.create(Length)
@@ -70,7 +70,7 @@ local Settings = {
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.DisplayOrder = 2147483647
 ScreenGui.IgnoreGuiInset = true
-ScreenGui.Name = UID(32)
+ScreenGui.Name = UID(64)
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -81,20 +81,20 @@ Notifs.AnchorPoint = Vector2.new(1, 0.5)
 Notifs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Notifs.BackgroundTransparency = 1
 Notifs.BorderSizePixel = 0
-Notifs.Name = UID(32)
+Notifs.Name = UID(64)
 Notifs.Position = UDim2.new(1, 0, 0.5, 0)
 Notifs.Size = UDim2.new(0.3, 0, 1, 0)
 Notifs.Parent = ScreenGui
 
 local NotifsLayout = Instance.new("UIListLayout")
 NotifsLayout.HorizontalFlex = Enum.UIFlexAlignment.Fill
-NotifsLayout.Name = UID(32)
+NotifsLayout.Name = UID(64)
 NotifsLayout.Padding = UDim.new(0, 6)
 NotifsLayout.SortOrder = Enum.SortOrder.LayoutOrder
 NotifsLayout.Parent = Notifs
 
 local NotifsPadding = Instance.new("UIPadding")
-NotifsPadding.Name = UID(32)
+NotifsPadding.Name = UID(64)
 NotifsPadding.PaddingBottom = UDim.new(0, 4)
 NotifsPadding.PaddingLeft = UDim.new(0, 4)
 NotifsPadding.PaddingRight = UDim.new(0, 4)
@@ -137,7 +137,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     NotifyHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     NotifyHolder.BackgroundTransparency = 1
     NotifyHolder.BorderSizePixel = 0
-    NotifyHolder.Name = UID(32)
+    NotifyHolder.Name = UID(64)
     NotifyHolder.Size = UDim2.new(1, 0, 0, 0)
     NotifyHolder.Parent = Notifs
 
@@ -145,18 +145,18 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Notify.AutomaticSize = Enum.AutomaticSize.Y
     Notify.BackgroundColor3 = currentTheme.Secondary
     Notify.BorderSizePixel = 0
-    Notify.Name = UID(32)
+    Notify.Name = UID(64)
     Notify.Size = UDim2.new(1, 0, 0, 0)
     Notify.Parent = NotifyHolder
 
     local NotifyCorner = Instance.new("UICorner")
     NotifyCorner.CornerRadius = UDim.new(0, 4)
-    NotifyCorner.Name = UID(32)
+    NotifyCorner.Name = UID(64)
     NotifyCorner.Parent = Notify
 
     local NotifyLayout = Instance.new("UIListLayout")
     NotifyLayout.HorizontalFlex = Enum.UIFlexAlignment.Fill
-    NotifyLayout.Name = UID(32)
+    NotifyLayout.Name = UID(64)
     NotifyLayout.Padding = UDim.new(0, 1)
     NotifyLayout.SortOrder = Enum.SortOrder.LayoutOrder
     NotifyLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
@@ -165,7 +165,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     local NotifyStroke = Instance.new("UIStroke")
     NotifyStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     NotifyStroke.Color = currentTheme.Accent
-    NotifyStroke.Name = UID(32)
+    NotifyStroke.Name = UID(64)
     NotifyStroke.Thickness = 1
     NotifyStroke.Parent = Notify
 
@@ -173,21 +173,21 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Topbar.BackgroundColor3 = currentTheme.Secondary
     Topbar.BorderSizePixel = 0
     Topbar.LayoutOrder = 1
-    Topbar.Name = UID(32)
+    Topbar.Name = UID(64)
     Topbar.Size = UDim2.new(1, 0, 0, 36)
     Topbar.Parent = Notify
 
     local TopbarLayout = Instance.new("UIListLayout")
     TopbarLayout.FillDirection = Enum.FillDirection.Horizontal
     TopbarLayout.HorizontalFlex = Enum.UIFlexAlignment.Fill
-    TopbarLayout.Name = UID(32)
+    TopbarLayout.Name = UID(64)
     TopbarLayout.Padding = UDim.new(0, 4)
     TopbarLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TopbarLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
     TopbarLayout.Parent = Topbar
 
     local TopbarPadding = Instance.new("UIPadding")
-    TopbarPadding.Name = UID(32)
+    TopbarPadding.Name = UID(64)
     TopbarPadding.PaddingBottom = UDim.new(0, 4)
     TopbarPadding.PaddingLeft = UDim.new(0, 4)
     TopbarPadding.PaddingRight = UDim.new(0, 4)
@@ -197,13 +197,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
     local TopbarSizeCons = Instance.new("UISizeConstraint")
     TopbarSizeCons.MaxSize = Vector2.new(8000, 36)
     TopbarSizeCons.MinSize = Vector2.new(100, 34)
-    TopbarSizeCons.Name = UID(32)
+    TopbarSizeCons.Name = UID(64)
     TopbarSizeCons.Parent = Topbar
 
     local TopbarStroke = Instance.new("UIStroke")
     TopbarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     TopbarStroke.Color = currentTheme.Accent
-    TopbarStroke.Name = UID(32)
+    TopbarStroke.Name = UID(64)
     TopbarStroke.Thickness = 1
     TopbarStroke.Parent = Topbar
 
@@ -213,13 +213,13 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Logo.BorderSizePixel = 0
     Logo.Image = SharedLogo or ""
     Logo.LayoutOrder = 1
-    Logo.Name = UID(32)
+    Logo.Name = UID(64)
     Logo.Size = UDim2.new(0.2, 0, 0.3, 0)
     Logo.Visible = SharedLogo ~= nil and SharedLogo ~= ""
     Logo.Parent = Topbar
 
     local LogoRatio = Instance.new("UIAspectRatioConstraint")
-    LogoRatio.Name = UID(32)
+    LogoRatio.Name = UID(64)
     LogoRatio.Parent = Logo
 
     local TitleLabel = Instance.new("TextLabel")
@@ -228,7 +228,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     TitleLabel.BorderSizePixel = 0
     TitleLabel.FontFace = currentFonts.Title
     TitleLabel.LayoutOrder = 2
-    TitleLabel.Name = UID(32)
+    TitleLabel.Name = UID(64)
     TitleLabel.Size = UDim2.new(0.2, 0, 0.3, 0)
     TitleLabel.Text = Title or "VoidUI"
     TitleLabel.TextColor3 = currentTheme.Accent
@@ -244,7 +244,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.BorderSizePixel = 0
     Description.FontFace = currentFonts.Description
     Description.LayoutOrder = 2
-    Description.Name = UID(32)
+    Description.Name = UID(64)
     Description.RichText = true
     Description.Size = UDim2.new(1, 0, 0, 0)
     Description.Text = Text or "Description..."
@@ -256,7 +256,7 @@ function VoidNotifs:Notify(Title, Text, Duration)
     Description.Parent = Notify
 
     local DescriptionPadding = Instance.new("UIPadding")
-    DescriptionPadding.Name = UID(32)
+    DescriptionPadding.Name = UID(64)
     DescriptionPadding.PaddingBottom = UDim.new(0, 4)
     DescriptionPadding.PaddingLeft = UDim.new(0, 4)
     DescriptionPadding.PaddingRight = UDim.new(0, 4)
