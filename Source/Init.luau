@@ -1,14 +1,12 @@
 if not game:IsLoaded() then
-  game.Loaded:Wait()
+    game.Loaded:Wait()
 end
 
-local Shared = (function()
-  local Success, Env = pcall(getgenv)
-  return (Success and Env) or _G or (warn("[Shared]: Failed to access a usable global environment.") or {})
-end)()
+local Shared = (type(getgenv) == "function" and getgenv()) or shared or _G
 
 local function GetService(Service)
-  return cloneref(game:GetService(Service))
+    local Service = game:GetService(Service)
+    return cloneref and cloneref(Service) or Service
 end
 
 local Hui = (gethui and gethui()) or GetService("CoreGui")
@@ -17,50 +15,38 @@ local Players = GetService("Players")
 local UserInputService = GetService("UserInputService")
 local StarterGui = GetService("StarterGui")
 
-local function Tween(Object, Speed, Properties, EasingStyle, EasingDirection)
-  if EasingStyle == nil then
-    EasingStyle = "Quad"
-  end
-  if EasingDirection == nil then
-    EasingDirection = "Out"
-  end
-  local TweenInformation = TweenInfo.new(Speed, Enum.EasingStyle[EasingStyle], Enum.EasingDirection[EasingDirection])
-  return TweenService:Create(Object, TweenInformation, Properties)
+local function Tween(Object, Speed, Props, Style, Dir)
+    return TweenService:Create(
+        Object,
+        TweenInfo.new(
+            Speed,
+            Enum.EasingStyle[Style or "Quad"],
+            Enum.EasingDirection[Dir or "Out"]
+        ),
+        Props
+    )
 end
 
 local function UID(Length)
-  local Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-  local Id = table.create(Length)
-  for i = 1, Length do
-    local Index = math.random(#Chars)
-    Id[i] = Chars:sub(Index, Index)
-  end
-  return table.concat(Id)
+    Length = Length or 32
+    local Chars = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]]
+    local Id = table.create(Length)
+    for i = 1, Length do
+        local Rand = math.random(1, #Chars)
+        Id[i] = Chars:sub(Rand, Rand)
+    end
+    return table.concat(Id)
 end
 
-local function expect(expected, value, fallback)
-    if type(value) == expected then
-        return value
-    end
-    if fallback ~= nil then
-        if type(fallback) == "function" then
-            return function(...)
-                return fallback(...)
-            end
-        end
-    end
-    return fallback
-end
-
-local WriteFile = expect("function", writefile, function() return end)
-local ReadFile = expect("function", readfile, function() return "" end)
-local IsFile = expect("function", isfile, function() return false end)
-local IsFolder = expect("function", isfolder, function() return false end)
-local MakeFolder = expect("function", makefolder, function() return end)
-local DelFile = expect("function", delfile, function() return end)
-local DelFolder = expect("function", delfolder, function() return end)
-local ListFiles = expect("function", listfiles, function() return {} end)
-local LoadFile = expect("function", getcustomasset, expect("function", getsynasset, nil))
+local WriteFile = type(writefile) == "function" and writefile or function() end
+local ReadFile = type(readfile) == "function" and readfile or function() return "" end
+local IsFile = type(isfile) == "function" and isfile or function() return false end
+local IsFolder = type(isfolder) == "function" and isfolder or function() return false end
+local MakeFolder = type(makefolder) == "function" and makefolder or function() end
+local DelFile = type(delfile) == "function" and delfile or function() end
+local DelFolder = type(delfolder) == "function" and delfolder or function() end
+local ListFiles = type(listfiles) == "function" and listfiles or function() return {} end
+local LoadFile = (type(getcustomasset) == "function" and getcustomasset) or (type(getsynasset) == "function" and getsynasset) or nil
 
 local VoidNotifs = loadstring(game.HttpGetAsync and game:HttpGetAsync("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Notify.luau") or game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Notify.luau"))()
 
@@ -96,9 +82,10 @@ if not IsFolder("VoidUI") then
 end
 
 local function HttpGet(url)
-    local RequestFunc = expect("function", syn and syn.request, 
-        expect("function", request, 
-            expect("function", http_request, nil)))
+    local RequestFunc = (type(syn) == "table" and type(syn.request) == "function" and syn.request)
+        or (type(request) == "function" and request)
+        or (type(http_request) == "function" and http_request)
+        or nil
     if not RequestFunc then
         return nil
     end
@@ -1525,33 +1512,23 @@ function VoidUI:SetTheme(theme)
     end
     if theme.Accent then
         local color = ParseColor(theme.Accent)
-        if color then
-            ApplyAccentColor(color)
-        end
+        if color then ApplyAccentColor(color) end
     end
     if theme.BackgroundColor then
         local color = ParseColor(theme.BackgroundColor)
-        if color then
-            ApplyBackgroundColor(color)
-        end
+        if color then ApplyBackgroundColor(color) end
     end
     if theme.NonSelectedTextColor then
         local color = ParseColor(theme.NonSelectedTextColor)
-        if color then
-            ApplyNonSelectedTextColor(color)
-        end
+        if color then ApplyNonSelectedTextColor(color) end
     end
     if theme.Secondary then
         local color = ParseColor(theme.Secondary)
-        if color then
-            ApplySecondaryColor(color)
-        end
+        if color then ApplySecondaryColor(color) end
     end
     if theme.TextColor then
         local color = ParseColor(theme.TextColor)
-        if color then
-            ApplyTextColor(color)
-        end
+        if color then ApplyTextColor(color) end
     end
     UpdateColorPlaceholders()
     if not IsCustomTheme then
@@ -1577,12 +1554,7 @@ Toggle.MouseButton1Click:Connect(function()
         SavedTitle = Title.Text
         Title.Text = "VoidUI"
         local topbarH = Topbar.AbsoluteSize.Y
-        local closedW
-        if HasLogo then
-            closedW = 134
-        else
-            closedW = 104
-        end
+        local closedW = HasLogo and 134 or 104
         TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
             Size = UDim2.fromOffset(closedW, topbarH),
             Position = ClosedPos
