@@ -1,14 +1,6 @@
 <div align="center">
 
-<table>
-<tr>
-<td bgcolor="#000000" style="border: 2px solid #6E5EFD; padding: 10px 40px;">
-
-<font color="#6E5EFD" size="6"><b>VoidUI</b></font>
-
-</td>
-</tr>
-</table>
+<img src="Source/Assets/Banner.png" alt="VoidUI Library">
 
 </div>
 
@@ -21,11 +13,11 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 # Screenshots
 
 <p align="center">
-  <img src="Assets/Screenshot-1.jpg" alt="VoidUI Elements">
+  <img src="Source/Assets/Screenshot-1.png" alt="VoidUI Elements">
 </p>
 
 <p align="center">
-  <img src="Assets/Screenshot-2.jpg" alt="VoidUI Elements">
+  <img src="Source/Assets/Screenshot-2.png" alt="VoidUI Settings">
 </p>
 
 ---
@@ -46,7 +38,7 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 # Installation
 
 ```luau
-local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Stable/Source/Init.luau"))()
+local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.luau"))()
 ```
 
 ---
