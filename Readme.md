@@ -1,6 +1,16 @@
-<p align="center">
-  <img src="Assets/VoidUI.png" alt="VoidUI" width="300" height="300">
-</p>
+<div align="center">
+
+<table>
+<tr>
+<td bgcolor="#000000" style="border: 2px solid #6E5EFD; padding: 10px 40px;">
+
+<font color="#6E5EFD" size="6"><b>VoidUI</b></font>
+
+</td>
+</tr>
+</table>
+
+</div>
 
 <p align="center">
 A lightweight, modern Roblox UI library with a clean API, built-in theme customization, and automatic settings saving.
