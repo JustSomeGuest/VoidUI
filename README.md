@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Source/Assets/Banner.png" alt="VoidUI Library">
+<img src="Source/Assets/Banner.png" alt="VoidUI Library Banner">
 
 </div>
 
