@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-A lightweight, modern Roblox UI library with a clean API, built-in theme customization, and automatic settings saving.
+A lightweight, modern Roblox UI library with a clean API, built-in theme customization, automatic settings saving, and robust notification/key systems.
 </p>
 
 ---
@@ -24,14 +24,15 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 
 # Why Choose VoidUI?
 
-- Lightweight and optimized
-- Clean and intuitive API
-- Built-in theme customization
-- Automatic settings saving
-- Built-in Settings tab
-- Smooth animations
-- Designed for both PC and mobile
-- Easy to integrate into existing projects
+- Lightweight and optimized performance
+- Clean and intuitive API design
+- Built-in theme customization & presets (e.g., "Deep Ocean")
+- Automatic settings persistence and saving
+- Built-in Settings tab with real-time RGB color customization
+- Built-in Notification and Key System support
+- Smooth tweens and animations
+- Designed for both PC and mobile platforms
+- Easy integration into existing scripts and projects
 
 ---
 
@@ -45,12 +46,17 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 # API Documentation
 
-## Window (Optional)
+## Window & Setup
 
 ```luau
-VoidUI:SetTitle("Title")
-VoidUI:SetLogo("https://example.com/logo.png") -- Also supports rbxassetid://1234
+VoidUI:SetTitle("VoidUI Component Showcase")
+VoidUI:SetTheme("Deep Ocean") -- Or pass a custom theme table
+VoidUI:SetKey("123", "example.com") -- Optional Key System
+```
 
+### Custom Theme Configuration
+
+```luau
 VoidUI:SetTheme({
     Accent = "255, 0, 0",
     Secondary = "30, 30, 30",
@@ -60,7 +66,17 @@ VoidUI:SetTheme({
 })
 ```
 
-## Tab
+## Notifications
+
+```luau
+VoidUI:Notify("Title", "Notification message here!", 5)
+```
+
+---
+
+## Elements
+
+### Tab
 
 ```luau
 local Tab = VoidUI:New("Tab", {
@@ -68,25 +84,25 @@ local Tab = VoidUI:New("Tab", {
 })
 ```
 
-## Section
+### Section
 
 ```luau
 VoidUI:New("Section", {
-    Text = "Section",
-    Parent = Tab
+    Parent = Tab,
+    Text = "Section"
 })
 ```
 
-## Label
+### Label
 
 ```luau
 VoidUI:New("Label", {
-    Text = "Label",
-    Parent = Tab
+    Parent = Tab,
+    Text = "Label"
 })
 ```
 
-## Divider
+### Divider
 
 ```luau
 VoidUI:New("Divider", {
@@ -94,24 +110,24 @@ VoidUI:New("Divider", {
 })
 ```
 
-## Button
+### Button
 
 ```luau
 VoidUI:New("Button", {
-    Text = "Button",
     Parent = Tab,
+    Text = "Button",
     Callback = function()
         print("Clicked")
     end
 })
 ```
 
-## Toggle
+### Toggle
 
 ```luau
 VoidUI:New("Toggle", {
-    Text = "Toggle",
     Parent = Tab,
+    Text = "Toggle",
     Default = false,
     Callback = function(state)
         print(state)
@@ -119,29 +135,44 @@ VoidUI:New("Toggle", {
 })
 ```
 
-## Slider
+### Slider
 
 ```luau
 VoidUI:New("Slider", {
-    Text = "Slider",
     Parent = Tab,
+    Text = "Slider",
     Min = 0,
     Max = 100,
+    Default = 50,
     Callback = function(value)
         print(value)
     end
 })
 ```
 
-## Input Box
+### Input Box
 
 ```luau
 VoidUI:New("Inputbox", {
-    Text = "Input Box",
     Parent = Tab,
-    Placeholder = "Placeholder",
+    Text = "Input Box",
+    Placeholder = "Enter text...",
     Callback = function(text)
         print(text)
+    end
+})
+```
+
+### Dropdown
+
+```luau
+VoidUI:New("Dropdown", {
+    Parent = Tab,
+    Text = "Dropdown",
+    Options = {"Option 1", "Option 2", "Option 3"},
+    Default = "Option 1",
+    Callback = function(option)
+        print(option)
     end
 })
 ```
@@ -150,11 +181,12 @@ VoidUI:New("Inputbox", {
 
 # Built-in Settings
 
-Every window automatically includes a **Settings** tab with the following options:
+Every window automatically includes a **Settings** tab with the following features:
 
-- Reset Theme
+- Reset Theme to default
 - Background Color (RGB)
 - Accent Color (RGB)
 - Secondary Color (RGB)
 - Text Color (RGB)
 - Unselected Text Color (RGB)
+- Automatic saving and loading of user settings
