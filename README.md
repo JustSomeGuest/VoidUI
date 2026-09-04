@@ -13,11 +13,23 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 # Screenshots
 
 <p align="center">
-  <img src="Source/Assets/Screenshot-1.png" alt="VoidUI Elements">
+  <img src="Source/Assets/Elements.png" alt="VoidUI Elements">
 </p>
 
 <p align="center">
-  <img src="Source/Assets/Screenshot-2.png" alt="VoidUI Settings">
+  <img src="Source/Assets/Settings-1.png" alt="VoidUI Settings 1">
+</p>
+
+<p align="center">
+  <img src="Source/Assets/Settings-2.png" alt="VoidUI Settings 2">
+</p>
+
+<p align="center">
+  <img src="Source/Assets/Notifs.png" alt="VoidUI Notifications">
+</p>
+
+<p align="center">
+  <img src="Source/Assets/KeySystem.png" alt="VoidUI Key System">
 </p>
 
 ---
@@ -26,7 +38,7 @@ A lightweight, modern Roblox UI library with a clean API, built-in theme customi
 
 - Lightweight and optimized performance
 - Clean and intuitive API design
-- Built-in theme customization & presets (e.g., "Deep Ocean")
+- Built-in theme customization & presets
 - Automatic settings persistence and saving
 - Built-in Settings tab with real-time RGB color customization
 - Built-in Notification and Key System support
@@ -50,9 +62,25 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 ```luau
 VoidUI:SetTitle("VoidUI Component Showcase")
-VoidUI:SetTheme("Deep Ocean") -- Or pass a custom theme table
+VoidUI:SetTheme("Deep Ocean") -- Pass a preset name or custom theme table
 VoidUI:SetKey("123", "example.com") -- Optional Key System
 ```
+
+## Preset Themes
+
+VoidUI comes with several built-in preset themes that you can pass directly to `VoidUI:SetTheme(themeName)`:
+
+- `"Void Purple"`
+- `"Deep Ocean"`
+- `"Crimson"`
+- `"Emerald"`
+- `"Sunset"`
+- `"Midnight"`
+- `"Rose Gold"`
+- `"Arctic"`
+- `"Neon Green"`
+- `"Amber"`
+- `"Lavender Mist"`
 
 ### Custom Theme Configuration
 
