@@ -36,4 +36,4 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 Example
 
-See the "Example.luau" (Source/Example.luau) file for setup, themes, key systems, notifications, and all available components.
+See the [Example.luau](Source/Example.luau) file for setup, themes, key systems, notifications, and all available components.
