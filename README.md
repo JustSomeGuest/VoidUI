@@ -11,7 +11,6 @@ Screenshots
   <img src="Source/Assets/Settings-2.png" alt="VoidUI Settings">
 </p><p align="center">
   <img src="Source/Assets/Notifs.png" alt="VoidUI Notifications">
-  <img src="Source/Assets/KeySystem.png" alt="VoidUI Key System">
 </p>---
 
 Features
