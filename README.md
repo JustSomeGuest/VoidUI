@@ -1,8 +1,10 @@
 <div align="center"><img src="Source/Assets/Banner.png" alt="VoidUI Library Banner"></div><p align="center">
 A lightweight, modern Roblox UI library with a clean API, themes, settings, notifications, and key systems.
-</p>---
+</p>
 
-Screenshots
+---
+
+# Screenshots
 
 <p align="center">
   <img src="Source/Assets/Elements.png" alt="VoidUI Elements">
@@ -11,9 +13,11 @@ Screenshots
   <img src="Source/Assets/Settings-2.png" alt="VoidUI Settings">
 </p><p align="center">
   <img src="Source/Assets/Notifs.png" alt="VoidUI Notifications">
-</p>---
+</p>
 
-Features
+---
+
+# Features
 
 - Lightweight and optimized
 - Simple API
@@ -27,12 +31,14 @@ Features
 
 ---
 
-Installation
+# Installation
 
+```lua
 local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.luau"))()
+```
 
 ---
 
-Example
+# Example
 
-See the [Example.luau](Source/Example.luau) file for setup, themes, key systems, notifications, and all available components.
+See the [Example.luau](Source/Example.luau) file for setup, themes, notifications, and all available components.
