@@ -19,11 +19,6 @@ VoidUI:SetTheme({
     NonSelectedTextColor = "150, 150, 150"
 })
 
--- SetKey("Key", "Ad Link URL")
--- The first argument is the actual key the user must receive.
--- The second argument is the URL where the user can get the key.
-VoidUI:SetKey("123", "links.lootlabs.gg/idk")
-
 
 -- Tab
 
