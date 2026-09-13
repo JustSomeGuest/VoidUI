@@ -84,6 +84,6 @@ No other rights are granted, whether express, implied, or otherwise.
 
 <div align="center">
 
-I spent a lot of time on this project man I don't want it stolen. Is this too much to ask?
+I spent a lot of time on this project, man. I really don't want it stolen. Is that too much to ask?
 
 </div>
