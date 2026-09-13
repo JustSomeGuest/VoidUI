@@ -1,6 +1,6 @@
 <div align="center">
   <img src="Source/Assets/Banner.png" alt="VoidUI Library Banner">
-</div>VoidUI License
+</div>License
 
 Copyright © JustSomeGuest. All rights reserved.
 
@@ -76,10 +76,6 @@ No other rights are granted, whether express, implied, or otherwise.
 
 ---
 
-<div align="center">VoidUI is proprietary software.
-
-Use it. Do not copy it. Do not modify it. Do not redistribute it.
-
-<br>I spent a lot of time on this project man I don't want it stolen. Is this too much to ask?
+<div align="center">I spent a lot of time on this project man I don't want it stolen. Is this too much to ask?
 
 </div>
