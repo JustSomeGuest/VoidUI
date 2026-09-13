@@ -34,7 +34,7 @@ A lightweight, modern Roblox UI library with a clean API, themes, settings, noti
 # Installation
 
 ```lua
-local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.luau"))()
+local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Init"))()
 ```
 
 ---
