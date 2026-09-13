@@ -1,6 +1,12 @@
 <div align="center">
   <img src="Source/Assets/Banner.png" alt="VoidUI Library Banner">
-</div>License
+</div>
+
+<div align="center">
+
+# License
+
+</div>
 
 Copyright © JustSomeGuest. All rights reserved.
 
