@@ -7,10 +7,12 @@ local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSo
 
 VoidUI:SetTitle("VoidUI Component Showcase")
 
--- Use a preset theme name. See the README for all available preset themes.
+-- Use a preset theme name.
+-- See the README for all available preset themes.
 VoidUI:SetTheme("Deep Ocean")
 
--- Or use a custom theme table.
+-- Or use a custom theme instead.
+--[[
 VoidUI:SetTheme({
     Accent = "255, 0, 0",
     Secondary = "30, 30, 30",
@@ -18,6 +20,7 @@ VoidUI:SetTheme({
     BackgroundColor = "10, 10, 10",
     NonSelectedTextColor = "150, 150, 150"
 })
+]]
 
 
 -- Tab
@@ -118,4 +121,5 @@ VoidUI:New("Dropdown", {
 -- The first argument is the notification title.
 -- The second argument is the notification text.
 -- The third argument is how long the notification stays visible, in seconds.
+
 VoidUI:Notify("Notification", "This is a notification!", 5)
