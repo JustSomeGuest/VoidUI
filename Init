@@ -4,4 +4,4 @@ end
 
 local httpget = game.HttpGetAsync or game.HttpGet
 
-loadstring(httpget(game, "https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.luau"))()
+loadstring(httpget(game, "https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.lua"))()
