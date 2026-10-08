@@ -49,7 +49,7 @@ VoidUI includes preset themes that can be applied by passing the theme name to S
 
 ## Preset Themes
 
-- Void Purple
+- Void Purple [Default]
 - Deep Ocean
 - Crimson
 - Emerald
