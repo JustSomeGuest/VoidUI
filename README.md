@@ -38,7 +38,7 @@ A lightweight, modern Roblox UI library with a clean API, themes, settings, and 
 # Installation
 
 ```lua
-local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.luau"))()
+local VoidUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/JustSomeGuest/VoidUI/Main/Source/Init.lua"))()
 ```
 
 ---
@@ -103,4 +103,4 @@ The theme values use RGB strings in the format "R, G, B".
 
 # Example
 
-See the [Example.luau](Source/Example.luau) file for setup, themes, notifications, and all available components.
+See the [Example.lua](Source/Example.lua) file for setup, themes, notifications, and all available components.
